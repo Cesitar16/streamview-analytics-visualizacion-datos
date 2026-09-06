@@ -1,0 +1,24 @@
+# Entorno y artefactos de Python
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Sistema operativo y editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Datos de origen: se proporcionan localmente y pueden ser voluminosos.
+# El directorio y su .gitkeep se conservan versionables.
+data/raw/*.csv
+
+# Artefactos internos de planificación de Superpowers.
+docs/superpowers/

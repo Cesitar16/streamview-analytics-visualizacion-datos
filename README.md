@@ -117,16 +117,16 @@ La implementación completa, metodología, KPIs, hallazgos y matriz de cumplimie
 
 ## Bloque financiero: Integrante 3
 
-El análisis financiero de Ignacio Silva está implementado en
-`notebooks/05_analisis_financiero.ipynb`, `src/financial_rules.py` y
-`docs/ignacio-silva.md`. Trabaja exclusivamente sobre `movies_financial_valid`, la
-vista preparada por el integrante 1 con la regla `budget > 0 AND revenue > 0`.
+En mi parte trabajé el análisis financiero de las películas usando
+`movies_financial_valid`, la vista preparada por el integrante 1 con la regla
+`budget > 0 AND revenue > 0`.
 
-El bloque incluye KPIs, ROI aproximado oficial (`revenue / budget`), asociación entre
-presupuesto e ingresos, Top 10 de ingresos, Top 10 de ROI y la segmentación
-reproducible de bajo presupuesto/alto retorno. Las cuatro figuras se guardan con el
-prefijo `ignacio_` en `outputs/figures/` y las pruebas sintéticas se encuentran en
-`tests/test_financial_rules.py`.
+Calculé los KPIs financieros, el ROI aproximado (`revenue / budget`), la relación
+entre presupuesto e ingresos, los Top 10 por ingresos y por ROI, y el grupo de
+películas con bajo presupuesto y alto retorno. Dejé el trabajo en
+`notebooks/05_analisis_financiero.ipynb`, `src/financial_rules.py` y
+`docs/ignacio-silva.md`; las figuras quedan en `outputs/figures/` con el prefijo
+`ignacio_` y las pruebas en `tests/test_financial_rules.py`.
 
 ## Tecnologías
 

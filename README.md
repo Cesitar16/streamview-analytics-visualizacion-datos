@@ -10,7 +10,7 @@ StreamView Analytics representa una empresa de streaming que busca transformar l
 
 El proyecto contiene exploración, auditoría de calidad, preparación reproducible, caracterización del catálogo y el bloque analítico de popularidad, valoración, rankings, género, asociación y evolución histórica. Las transformaciones se realizan en memoria sin sobrescribir los CSV originales.
 
-El notebook 03 y `src/business_rules.py` implementan los KPIs de Lucas Moncada sobre `catalogo_general`, `catalogo_popularity` y la vista preparada `catalogo_generos`. Incluyen Top 10 de popularidad, valoración y votos, popularidad por género, comparación Movie/TV Show y la distinción entre año de estreno e incorporación. El análisis financiero y ROI permanecen fuera del alcance implementado hasta completar su bloque correspondiente.
+El notebook 03 y `src/business_rules.py` implementan los KPIs de Lucas Moncada sobre `catalogo_general`, `catalogo_popularity` y la vista preparada `catalogo_generos`. El notebook 05 y `src/financial_rules.py` implementan el bloque financiero de Ignacio Silva sobre `movies_financial_valid`.
 
 ## Fuentes de datos
 
@@ -115,17 +115,18 @@ Los notebooks 01, 02 y 04, junto con la preparación de datos, corresponden al t
 
 La implementación completa, metodología, KPIs, hallazgos y matriz de cumplimiento del bloque están documentados en `docs/lucas-moncada.md`.
 
-## Siguiente bloque: Integrante 3
+## Bloque financiero: Integrante 3
 
-El siguiente bloque corresponde al análisis financiero de Movies. Debe trabajar
-exclusivamente sobre `movies_financial_valid`, vista preparada por el integrante 1 con
-la regla `budget > 0 AND revenue > 0`. El contrato de datos, los diez objetivos, las
-definiciones recomendadas de ROI, la regla inicial para bajo presupuesto/alto retorno,
-las visualizaciones y las comprobaciones de entrega están detallados en
-`docs/integrante-3-handoff-financiero.md`.
+En mi parte trabajé el análisis financiero de las películas usando
+`movies_financial_valid`, la vista preparada por el integrante 1 con la regla
+`budget > 0 AND revenue > 0`.
 
-Este traspaso documenta el trabajo pendiente, pero no atribuye al Integrante 3 una
-implementación que todavía no existe.
+Calculé los KPIs financieros, el ROI aproximado (`revenue / budget`), la relación
+entre presupuesto e ingresos, los Top 10 por ingresos y por ROI, y el grupo de
+películas con bajo presupuesto y alto retorno. Dejé el trabajo en
+`notebooks/05_analisis_financiero.ipynb`, `src/financial_rules.py` y
+`docs/ignacio-silva.md`; las figuras quedan en `outputs/figures/` con el prefijo
+`ignacio_` y las pruebas en `tests/test_financial_rules.py`.
 
 ## Tecnologías
 
@@ -155,4 +156,3 @@ Mantén los cambios enfocados, revisa el notebook o código antes de integrarlo 
 ## Estado del proyecto
 
 **EP1 en desarrollo avanzado.** Están implementadas la exploración, calidad y preparación del catálogo, cuatro visualizaciones de composición y el bloque de popularidad, valoración, rankings, género, asociación y evolución. Queda pendiente integrar los demás bloques del equipo y consolidar el informe final.
-

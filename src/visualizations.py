@@ -6,6 +6,8 @@ from matplotlib.figure import Figure
 
 
 TYPE_COLORS = {"Movie": "#2F6690", "TV Show": "#D17A22"}
+FINANCIAL_COLOR = "#2A9D8F"
+RETURN_COLOR = "#E76F51"
 
 
 def plot_popularity_comparison(
@@ -238,5 +240,101 @@ def plot_historical_evolution(evolution: pd.DataFrame) -> Figure:
     for ax in axes:
         ax.grid(alpha=0.25)
         ax.legend(title="Tipo")
+    fig.tight_layout()
+    return fig
+
+
+def _short_title(value: str, limit: int = 38) -> str:
+    return value if len(value) <= limit else f"{value[:limit - 3]}..."
+
+
+def plot_budget_vs_revenue(financial: pd.DataFrame, spearman_rho: float) -> Figure:
+    """Relaciona inversión e ingresos sin ocultar la asimetría de las variables."""
+    fig, ax = plt.subplots(figsize=(9, 6))
+    ax.scatter(
+        financial["budget"],
+        financial["revenue"],
+        color=FINANCIAL_COLOR,
+        alpha=0.26,
+        s=20,
+        edgecolors="none",
+    )
+    ax.set_xscale("log")
+    ax.set_yscale("log")
+    ax.set_title("Mayor presupuesto se asocia con mayores ingresos, con alta dispersión")
+    ax.set_xlabel("Presupuesto de producción (USD, escala logarítmica)")
+    ax.set_ylabel("Ingresos generados (USD, escala logarítmica)")
+    ax.text(
+        0.02,
+        0.98,
+        f"Películas elegibles: {len(financial):,}\nρ de Spearman: {spearman_rho:.3f}",
+        transform=ax.transAxes,
+        va="top",
+        bbox={"facecolor": "white", "edgecolor": "#A0A0A0", "alpha": 0.9},
+    )
+    ax.grid(alpha=0.22)
+    fig.tight_layout()
+    return fig
+
+
+def plot_top_revenue(top_revenue: pd.DataFrame) -> Figure:
+    """Presenta las películas con mayor ingreso absoluto."""
+    data = top_revenue.sort_values("revenue")
+    fig, ax = plt.subplots(figsize=(10, 6.5))
+    bars = ax.barh(data["title"].map(_short_title), data["revenue"], color=FINANCIAL_COLOR)
+    ax.set_title("Las 10 películas con mayor ingreso absoluto")
+    ax.set_xlabel("Ingresos generados (USD)")
+    ax.grid(axis="x", alpha=0.22)
+    for bar, value in zip(bars, data["revenue"]):
+        ax.text(bar.get_width(), bar.get_y() + bar.get_height() / 2, f" ${value / 1e9:.2f} mil M", va="center")
+    fig.tight_layout()
+    return fig
+
+
+def plot_top_roi(top_roi: pd.DataFrame) -> Figure:
+    """Presenta retorno relativo y conserva presupuesto e ingresos como contexto."""
+    data = top_roi.sort_values("roi_approx")
+    labels = [
+        f"{_short_title(row.title, 30)}\nB: USD {row.budget:,.0f} | I: USD {row.revenue:,.0f}"
+        for row in data.itertuples(index=False)
+    ]
+    fig, ax = plt.subplots(figsize=(11, 7.5))
+    positions = range(len(data))
+    ax.hlines(positions, 1, data["roi_approx"], color="#E9B6A8", linewidth=2)
+    ax.scatter(data["roi_approx"], positions, color=RETURN_COLOR, s=55, zorder=3)
+    ax.set_yticks(list(positions), labels)
+    ax.set_xscale("log")
+    ax.set_title("El mayor retorno relativo se concentra en presupuestos pequeños")
+    ax.set_xlabel("ROI aproximado (revenue / budget, multiplicador; escala logarítmica)")
+    ax.grid(axis="x", alpha=0.22)
+    for position, value in zip(positions, data["roi_approx"]):
+        ax.annotate(f" {value:,.0f}x", (value, position), va="center")
+    fig.text(0.01, 0.01, "Nota: el ROI aproximado es un retorno relativo; no equivale a ingreso absoluto.", fontsize=9)
+    fig.tight_layout(rect=(0, 0.04, 1, 1))
+    return fig
+
+
+def plot_low_budget_high_return(
+    financial: pd.DataFrame, thresholds: pd.DataFrame
+) -> Figure:
+    """Muestra la regla P25/P75 para inversión reducida y retorno alto."""
+    threshold = thresholds.iloc[0]
+    selected = financial.loc[
+        financial["budget"].le(threshold.budget_p25)
+        & financial["roi_approx"].ge(threshold.roi_approx_p75)
+    ]
+    fig, ax = plt.subplots(figsize=(9, 6))
+    ax.scatter(financial["budget"], financial["roi_approx"], color="#B8C4CE", alpha=0.32, s=18, edgecolors="none", label="Resto elegible")
+    ax.scatter(selected["budget"], selected["roi_approx"], color=RETURN_COLOR, alpha=0.8, s=24, edgecolors="none", label="Bajo presupuesto y alto retorno")
+    ax.axvline(threshold.budget_p25, color="#4A4A4A", linestyle="--", linewidth=1.2)
+    ax.axhline(threshold.roi_approx_p75, color="#4A4A4A", linestyle="--", linewidth=1.2)
+    ax.set_xscale("log")
+    ax.set_yscale("log")
+    ax.set_title("El segmento P25 de presupuesto y P75 de retorno identifica oportunidades relativas")
+    ax.set_xlabel("Presupuesto de producción (USD, escala logarítmica)")
+    ax.set_ylabel("ROI aproximado (revenue / budget, escala logarítmica)")
+    ax.legend(loc="lower right")
+    ax.text(0.02, 0.98, f"P25 budget: ${threshold.budget_p25:,.0f}\nP75 ROI: {threshold.roi_approx_p75:.2f}x\nSegmento: {int(threshold.titles):,} películas", transform=ax.transAxes, va="top", bbox={"facecolor": "white", "edgecolor": "#A0A0A0", "alpha": 0.9})
+    ax.grid(alpha=0.22)
     fig.tight_layout()
     return fig

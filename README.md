@@ -115,15 +115,15 @@ Los notebooks 01, 02 y 04, junto con la preparación de datos, corresponden al t
 
 La implementación completa, metodología, KPIs, hallazgos y matriz de cumplimiento del bloque están documentados en `docs/lucas-moncada.md`.
 
-## Bloque financiero: Integrante 3
+## Bloque financiero
 
-En mi parte trabajé el análisis financiero de las películas usando
-`movies_financial_valid`, la vista preparada por el integrante 1 con la regla
+El equipo analizó el desempeño financiero de las películas usando
+`movies_financial_valid`, una vista preparada con la regla
 `budget > 0 AND revenue > 0`.
 
-Calculé los KPIs financieros, el ROI aproximado (`revenue / budget`), la relación
+El bloque incluye KPIs financieros, ROI aproximado (`revenue / budget`), la relación
 entre presupuesto e ingresos, los Top 10 por ingresos y por ROI, y el grupo de
-películas con bajo presupuesto y alto retorno. Dejé el trabajo en
+películas con bajo presupuesto y alto retorno. La implementación se encuentra en
 `notebooks/05_analisis_financiero.ipynb`, `src/financial_rules.py` y
 `docs/ignacio-silva.md`; las figuras quedan en `outputs/figures/` con el prefijo
 `ignacio_` y las pruebas en `tests/test_financial_rules.py`.

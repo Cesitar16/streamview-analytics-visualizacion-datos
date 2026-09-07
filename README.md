@@ -8,9 +8,9 @@ StreamView Analytics representa una empresa de streaming que busca transformar l
 
 ## Alcance actual: EP1
 
-El proyecto está en **Configuración inicial / preparación para EP1**. Esta fase solo establece el entorno, la estructura, la documentación y los puntos de extensión del código. No se han realizado análisis, limpieza, KPIs, visualizaciones, storytelling ni transformaciones de datos.
+El proyecto contiene exploración, auditoría de calidad, preparación reproducible, caracterización del catálogo y el bloque analítico de popularidad, valoración, rankings, género, asociación y evolución histórica. Las transformaciones se realizan en memoria sin sobrescribir los CSV originales.
 
-En las siguientes etapas se documentarán y justificarán el tratamiento de nulos, duplicados, tipos, formatos, categóricas, outliers, fechas y coherencia de los campos financieros.
+El notebook 03 y `src/business_rules.py` implementan los KPIs de Lucas Moncada sobre `catalogo_general`, `catalogo_popularity` y la vista preparada `catalogo_generos`. Incluyen Top 10 de popularidad, valoración y votos, popularidad por género, comparación Movie/TV Show y la distinción entre año de estreno e incorporación. El análisis financiero y ROI permanecen fuera del alcance implementado hasta completar su bloque correspondiente.
 
 ## Fuentes de datos
 
@@ -40,12 +40,12 @@ streamview-analytics-visualizacion-datos/
 │   ├── 03_reglas_negocio_kpis.ipynb
 │   └── 04_visualizaciones_storytelling.ipynb
 ├── outputs/
-│   └── figures/              # figuras futuras
+│   └── figures/              # figuras reproducibles de los análisis
 ├── reports/                  # informes y entregables futuros
 ├── src/
 │   ├── data_cleaning.py      # preparación reutilizable futura
-│   ├── business_rules.py     # reglas y variables derivadas futuras
-│   └── visualizations.py     # funciones visuales futuras
+│   ├── business_rules.py     # KPIs y reglas analíticas reproducibles
+│   └── visualizations.py     # funciones visuales reutilizables
 ├── pyproject.toml
 ├── uv.lock
 ├── .gitignore
@@ -111,7 +111,21 @@ uv run python -m ipykernel install --user --name streamview-analytics --display-
 - **03_reglas_negocio_kpis:** reglas del caso, variables derivadas y KPIs.
 - **04_visualizaciones_storytelling:** visualizaciones requeridas y narrativa.
 
-Actualmente todos contienen solo una introducción Markdown; se desarrollarán en ese orden cuando comience EP1.
+Los notebooks 01, 02 y 04, junto con la preparación de datos, corresponden al trabajo previo del integrante 1. El notebook 03 corresponde al bloque de Lucas Moncada y reconstruye sus tablas y figuras desde esas vistas preparadas.
+
+La implementación completa, metodología, KPIs, hallazgos y matriz de cumplimiento del bloque están documentados en `docs/lucas-moncada.md`.
+
+## Siguiente bloque: Integrante 3
+
+El siguiente bloque corresponde al análisis financiero de Movies. Debe trabajar
+exclusivamente sobre `movies_financial_valid`, vista preparada por el integrante 1 con
+la regla `budget > 0 AND revenue > 0`. El contrato de datos, los diez objetivos, las
+definiciones recomendadas de ROI, la regla inicial para bajo presupuesto/alto retorno,
+las visualizaciones y las comprobaciones de entrega están detallados en
+`docs/integrante-3-handoff-financiero.md`.
+
+Este traspaso documenta el trabajo pendiente, pero no atribuye al Integrante 3 una
+implementación que todavía no existe.
 
 ## Tecnologías
 
@@ -140,5 +154,5 @@ Mantén los cambios enfocados, revisa el notebook o código antes de integrarlo 
 
 ## Estado del proyecto
 
-**Configuración inicial / preparación para EP1.** Los CSV deben añadirse manualmente a `data/raw/` antes de iniciar la exploración.
+**EP1 en desarrollo avanzado.** Están implementadas la exploración, calidad y preparación del catálogo, cuatro visualizaciones de composición y el bloque de popularidad, valoración, rankings, género, asociación y evolución. Queda pendiente integrar los demás bloques del equipo y consolidar el informe final.
 

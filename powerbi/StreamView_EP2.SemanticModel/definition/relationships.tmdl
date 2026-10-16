@@ -1,0 +1,29 @@
+relationship c7c8e54a-c188-5f16-86a0-d2e5dfda01e1
+	crossFilteringBehavior: bothDirections
+	fromColumn: generos.content_id
+	toColumn: catalogo.content_id
+
+relationship 58983d24-5d96-519f-8eee-4da73b8157da
+	crossFilteringBehavior: bothDirections
+	fromColumn: paises.content_id
+	toColumn: catalogo.content_id
+
+relationship 6535643e-a0b4-57c5-b277-4bc33d6cfcc8
+	crossFilteringBehavior: bothDirections
+	fromColumn: directores.content_id
+	toColumn: catalogo.content_id
+
+relationship a6df20c3-107d-5205-9264-ad53c5ce859e
+	crossFilteringBehavior: bothDirections
+	fromColumn: actores.content_id
+	toColumn: catalogo.content_id
+
+relationship 471f1e59-7381-5782-9568-61ceaf852eda
+	crossFilteringBehavior: bothDirections
+	fromColumn: finanzas.content_id
+	toColumn: catalogo.content_id
+
+relationship 00a35c4c-57e7-4a73-8319-ca3d5f29c98d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: catalogo.date_added
+	toColumn: LocalDateTable_a74d5276-9897-41b4-975b-6d598488db25.Date

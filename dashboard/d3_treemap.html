@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <script>__D3__</script>
+  <style>
+    body {margin:0;background:#fff;color:#20364f;font:13px Arial,sans-serif}
+    #chart {width:100%;height:390px;position:relative}
+    .node {position:absolute;box-sizing:border-box;border:3px solid #fff;border-radius:7px;
+      padding:9px;overflow:hidden;line-height:1.2;color:#fff;font-weight:700;
+      transition:filter .15s ease,transform .15s ease}
+    .node:hover {filter:brightness(1.13);z-index:2;outline:2px solid #20364f}
+    .node small {display:block;font-weight:500;margin-top:5px;opacity:.9}
+    #tooltip {display:none;position:fixed;z-index:10;background:#172b45;color:#fff;
+      border-radius:8px;padding:9px 12px;pointer-events:none;box-shadow:0 6px 20px #223a5540}
+  </style>
+</head>
+<body>
+<div id="chart" role="img" aria-label="Mapa de árbol de géneros por cantidad de contenidos"></div>
+<div id="tooltip"></div>
+<script>
+const records = __DATA__;
+const rootNode = document.getElementById("chart");
+const tooltip = document.getElementById("tooltip");
+function draw() {
+  rootNode.innerHTML = "";
+  const width = rootNode.clientWidth, height = rootNode.clientHeight;
+  const root = d3.hierarchy({name:"Géneros",children:records})
+    .sum(d => d.value || 0).sort((a,b) => b.value-a.value);
+  d3.treemap().size([width,height]).paddingInner(3)(root);
+  const colors = ["#246eb2", "#168b91", "#5b74bf", "#43a8a0", "#5478a2", "#6699be"];
+  root.leaves().forEach(node => {
+    const box = document.createElement("div");
+    box.className = "node";
+    box.style.left = node.x0+"px"; box.style.top = node.y0+"px";
+    box.style.width = (node.x1-node.x0)+"px"; box.style.height = (node.y1-node.y0)+"px";
+    box.style.background = colors[node.parent.children.indexOf(node) % colors.length];
+    box.title = `${node.data.name}: ${node.value.toLocaleString("es-CL")} contenidos`;
+    box.setAttribute("aria-label", box.title);
+    box.addEventListener("pointermove", event => {
+      tooltip.textContent = box.title;
+      tooltip.style.display = "block";
+      tooltip.style.left = Math.min(event.clientX + 12, window.innerWidth - 220) + "px";
+      tooltip.style.top = Math.min(event.clientY + 12, window.innerHeight - 50) + "px";
+    });
+    box.addEventListener("pointerleave", () => tooltip.style.display = "none");
+    if (node.x1-node.x0 > 88 && node.y1-node.y0 > 38) {
+      const label = document.createElement("span"); label.textContent = node.data.name;
+      const count = document.createElement("small"); count.textContent = node.value.toLocaleString("es-CL");
+      box.append(label,count);
+    }
+    rootNode.appendChild(box);
+  });
+}
+window.addEventListener("resize", draw); draw();
+</script>
+</body>
+</html>

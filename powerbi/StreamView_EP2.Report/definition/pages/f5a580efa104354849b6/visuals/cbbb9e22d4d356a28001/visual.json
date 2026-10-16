@@ -1,0 +1,110 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "cbbb9e22d4d356a28001",
+  "position": {
+    "x": 1090,
+    "y": 1230,
+    "z": 26000,
+    "height": 420,
+    "width": 790,
+    "tabOrder": 26000
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "catalogo"
+                    }
+                  },
+                  "Property": "display_title"
+                }
+              },
+              "queryRef": "catalogo.display_title",
+              "nativeQueryRef": "display_title",
+              "active": true,
+              "displayName": "Título"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "catalogo"
+                    }
+                  },
+                  "Property": "Top 10 ingresos"
+                }
+              },
+              "queryRef": "catalogo.Top 10 ingresos",
+              "nativeQueryRef": "Top 10 ingresos"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "catalogo"
+                  }
+                },
+                "Property": "Top 10 ingresos"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Películas con mayores ingresos · hasta 10'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

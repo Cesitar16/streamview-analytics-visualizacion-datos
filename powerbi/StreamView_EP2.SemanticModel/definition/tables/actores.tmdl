@@ -1,0 +1,28 @@
+table actores
+	lineageTag: 2daa9092-f0c6-5d02-ac7b-3e5ad3a6a34c
+
+	column content_id
+		dataType: string
+		lineageTag: aebeb9b2-4ec3-5219-85ef-557dc93b2cf3
+		summarizeBy: none
+		sourceColumn: content_id
+
+	column actor
+		dataType: string
+		lineageTag: 348b5245-4ca4-5c59-a165-4fab0c4061ae
+		summarizeBy: none
+		sourceColumn: actor
+
+	partition actores = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\LzzZ\Desktop\visualizacion de datos\streamview-analytics-visualizacion-datos\powerbi\data\actores.csv"), [Delimiter=",", Columns=2, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Headers, {{"content_id", type text}, {"actor", type text}}, "en-US")
+				in
+					Typed
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table

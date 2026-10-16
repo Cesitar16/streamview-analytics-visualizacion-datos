@@ -1,0 +1,28 @@
+table paises
+	lineageTag: 2ad86ac8-c9eb-5f7e-ba27-9f1296b40a88
+
+	column content_id
+		dataType: string
+		lineageTag: 66ed9873-5c18-5aac-944d-7b2197b60521
+		summarizeBy: none
+		sourceColumn: content_id
+
+	column country
+		dataType: string
+		lineageTag: 9e6a8fc5-02f6-5cbf-920b-7c291fa2b83c
+		summarizeBy: none
+		sourceColumn: country
+
+	partition paises = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\LzzZ\Desktop\visualizacion de datos\streamview-analytics-visualizacion-datos\powerbi\data\paises.csv"), [Delimiter=",", Columns=2, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Headers, {{"content_id", type text}, {"country", type text}}, "en-US")
+				in
+					Typed
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table

@@ -1,0 +1,257 @@
+table catalogo
+	lineageTag: fe1b82b0-b6f5-538a-8838-04aa6136420b
+
+	measure 'Total contenidos' = DISTINCTCOUNT(catalogo[content_id])
+		formatString: #,0
+		lineageTag: 406ed656-1553-5a6a-8edd-4f063e58e873
+
+	measure 'Total películas' = COALESCE(CALCULATE([Total contenidos], KEEPFILTERS(catalogo[type] = "Movie")), 0)
+		formatString: #,0
+		lineageTag: 0fd31140-65e5-5880-bf19-7339ee7975af
+
+	measure 'Total series' = COALESCE(CALCULATE([Total contenidos], KEEPFILTERS(catalogo[type] = "TV Show")), 0)
+		formatString: #,0
+		lineageTag: 26c020d9-f335-5601-b6da-cd17763f2b6d
+
+	measure 'Países representados' = DISTINCTCOUNT(paises[country])
+		formatString: #,0
+		lineageTag: 0a4e001d-2dab-5f3b-8f95-e9c78ad11043
+
+	measure 'Idiomas disponibles' = DISTINCTCOUNT(catalogo[language])
+		formatString: #,0
+		lineageTag: 7fd12b53-fdb0-59f5-9ce0-9b62e6861714
+
+	measure Géneros = DISTINCTCOUNT(generos[genre])
+		formatString: #,0
+		lineageTag: 584c5ba6-972f-5805-b70b-21912b2bf43e
+
+	measure 'Popularidad promedio' = AVERAGE(catalogo[popularity])
+		formatString: #,0.0
+		lineageTag: 5142b6e0-259a-5e6e-93ed-9691cf1ba265
+
+	measure 'Popularidad mediana' = MEDIAN(catalogo[popularity])
+		formatString: #,0.0
+		lineageTag: 9cd18332-9c1e-50d0-bff2-614497a2a26e
+
+	measure 'Calificación promedio' = CALCULATE(AVERAGE(catalogo[vote_average]), catalogo[vote_count] > 0)
+		formatString: 0.00
+		lineageTag: 7aa44e39-01c2-59f8-a3ed-ff1c6541c85e
+
+	measure 'Votos totales' = SUM(catalogo[vote_count])
+		formatString: #,0
+		lineageTag: 261276e3-264d-5c48-b1fe-df84bc415ab6
+
+	measure 'Popularidad por título' = AVERAGE(catalogo[popularity])
+		formatString: #,0.0
+		lineageTag: 2929baa1-e399-5d8e-a18a-db00a76082d5
+
+	measure 'Calificación por título' = IF([Votos totales] > 0, AVERAGE(catalogo[vote_average]))
+		formatString: 0.00
+		lineageTag: 43c89c0e-65e3-5bc3-8ee7-f59821b5a67b
+
+	measure 'Películas financieras' = DISTINCTCOUNT(finanzas[content_id])
+		formatString: #,0
+		lineageTag: 37ec3e4a-5a9f-5132-b3d3-a94e16b1f278
+
+	measure 'Presupuesto promedio' = AVERAGE(finanzas[budget])
+		formatString: #,0
+		lineageTag: 02490588-33d3-5a47-aa19-4481668401b0
+
+	measure 'Presupuesto total' = SUM(finanzas[budget])
+		formatString: #,0
+		lineageTag: 91475c3e-f068-5f12-8b49-a982049b74d3
+
+	measure 'Ingresos totales' = SUM(finanzas[revenue])
+		formatString: #,0
+		lineageTag: 7ed806b1-8b27-54f6-9ef0-0c550577b23e
+
+	measure 'Ingresos / presupuesto' = DIVIDE([Ingresos totales], [Presupuesto total])
+		formatString: 0.00
+		lineageTag: 0e19445b-86ec-50ed-a1df-ab1031cda33f
+
+	measure 'Retorno mediano por título' = MEDIAN(finanzas[return_multiple])
+		formatString: 0.00
+		lineageTag: 7f2942af-48bb-5db3-b641-d54afba6a772
+
+	measure 'Top 10 países' = IF(RANKX(ALLSELECTED(paises[country]), CALCULATE([Total contenidos]),, DESC, DENSE) <= 10, [Total contenidos])
+		formatString: #,0
+		lineageTag: 761ae74a-8f87-5834-b812-84ccfc4c4318
+
+	measure 'Top 10 idiomas' = IF(RANKX(ALLSELECTED(catalogo[language_label]), CALCULATE([Total contenidos]),, DESC, DENSE) <= 10, [Total contenidos])
+		formatString: #,0
+		lineageTag: 20d62172-0077-56ad-b9f8-de0b3775b00c
+
+	measure 'Top 10 géneros' = IF(RANKX(ALLSELECTED(generos[genre]), CALCULATE([Total contenidos]),, DESC, DENSE) <= 10, [Total contenidos])
+		formatString: #,0
+		lineageTag: 4c04c90a-a160-53d6-afdd-4fc1df89c4ba
+
+	measure 'Top 10 calificación géneros' = IF([Total contenidos] >= 100 && RANKX(FILTER(ALLSELECTED(generos[genre]), CALCULATE([Total contenidos]) >= 100), CALCULATE([Calificación promedio]),, DESC, DENSE) <= 10, [Calificación promedio])
+		formatString: 0.00
+		lineageTag: a8f6ffc9-5a40-5f4b-8f7d-528a09a87fb4
+
+	measure 'Contenidos por director' = DISTINCTCOUNT(directores[content_id])
+		formatString: #,0
+		lineageTag: 5e95dd21-ddfa-5f22-85e8-0efe7e014361
+
+	measure 'Contenidos por actor' = DISTINCTCOUNT(actores[content_id])
+		formatString: #,0
+		lineageTag: 3bb3a57c-ef16-5ef6-93df-0571b2add67e
+
+	measure 'Top 10 directores' = IF(RANKX(ALLSELECTED(directores[director]), CALCULATE([Contenidos por director]),, DESC, DENSE) <= 10, [Contenidos por director])
+		formatString: #,0
+		lineageTag: c8c4e9e4-2241-53bb-9392-8461dc364f83
+
+	measure 'Top 10 actores' = IF(RANKX(ALLSELECTED(actores[actor]), CALCULATE([Contenidos por actor]),, DESC, DENSE) <= 10, [Contenidos por actor])
+		formatString: #,0
+		lineageTag: 575be727-d080-547d-ab37-15d5960c5fec
+
+	measure 'Top 10 ingresos' = IF(RANKX(ALLSELECTED(catalogo[display_title]), CALCULATE([Ingresos totales]),, DESC, DENSE) <= 10, [Ingresos totales])
+		formatString: #,0
+		lineageTag: 3488d950-5a6c-5120-ab05-308079601363
+
+	measure 'Cobertura país mínimo 30' = IF([Total contenidos] >= 30, [Total contenidos])
+		formatString: #,0
+		lineageTag: 4ce92b6c-033e-5d74-89e1-1cb42ac1dafc
+
+	measure 'Popularidad escala log' = IF(NOT ISBLANK([Popularidad por título]), LOG(1 + [Popularidad por título], 10))
+		formatString: 0.00
+		lineageTag: cded22cf-0abd-56a8-9641-daca9df0b07e
+
+	measure 'Contexto principal' = VAR t = IF(HASONEVALUE(catalogo[type]), SWITCH(SELECTEDVALUE(catalogo[type]), "Movie", "Películas", "TV Show", "Series", SELECTEDVALUE(catalogo[type])), IF(ISFILTERED(catalogo[type]), "Varios", "Todos")) VAR g = IF(HASONEVALUE(generos[genre]), SELECTEDVALUE(generos[genre]), IF(ISFILTERED(generos[genre]), "Varios", "Todos")) VAR p = IF(HASONEVALUE(paises[country]), SELECTEDVALUE(paises[country]), IF(ISFILTERED(paises[country]), "Varios", "Todos")) RETURN "Tipo: " & t & "  ·  Género: " & g & "  ·  País: " & p
+		lineageTag: 56e8159d-7039-5bd0-b579-9f8b29872583
+
+	measure 'Contexto secundario' = VAR i = IF(HASONEVALUE(catalogo[language_label]), SELECTEDVALUE(catalogo[language_label]), IF(ISFILTERED(catalogo[language_label]), "Varios", "Todos")) RETURN "Años: " & FORMAT(MIN(catalogo[release_year]), "0") & "–" & FORMAT(MAX(catalogo[release_year]), "0") & "  ·  Idioma: " & i & "  ·  Nota: " & FORMAT(MIN(catalogo[vote_average]), "0.0") & "–" & FORMAT(MAX(catalogo[vote_average]), "0.0")
+		lineageTag: 325a39de-e33d-5941-af74-7da4aaf449e7
+
+	measure 'Resumen cobertura financiera' = VAR elegibles = COALESCE([Películas financieras], 0) VAR peliculas = CALCULATE([Total películas], REMOVEFILTERS(finanzas)) RETURN IF(peliculas = 0, "Cobertura financiera: sin películas en la selección", "Cobertura financiera: " & FORMAT(elegibles, "#,0", "es-CL") & " de " & FORMAT(peliculas, "#,0", "es-CL") & " películas (" & FORMAT(DIVIDE(elegibles, peliculas), "0.0%", "es-CL") & ") con presupuesto e ingresos positivos")
+		lineageTag: caa742ce-e9c7-563c-b041-f76986d45aa9
+
+	measure 'Umbral presupuesto reducido' = CALCULATE(PERCENTILEX.INC(finanzas, finanzas[budget], 0.25), REMOVEFILTERS(catalogo), REMOVEFILTERS(finanzas))
+		formatString: #,0
+		lineageTag: bb435678-8f4c-59ab-a0a0-3473d9314fe9
+
+	measure 'Umbral ingresos altos' = CALCULATE(PERCENTILEX.INC(finanzas, finanzas[revenue], 0.75), REMOVEFILTERS(catalogo), REMOVEFILTERS(finanzas))
+		formatString: #,0
+		lineageTag: 6238d124-01bd-5d39-8149-8183d7ed7bc1
+
+	measure 'Candidata: presupuesto bajo e ingresos altos' = VAR presupuesto = SELECTEDVALUE(finanzas[budget]) VAR ingresos = SELECTEDVALUE(finanzas[revenue]) RETURN IF(NOT ISBLANK(presupuesto) && NOT ISBLANK(ingresos) && presupuesto <= [Umbral presupuesto reducido] && ingresos >= [Umbral ingresos altos], 1)
+		formatString: 0
+		lineageTag: b7f618ba-d77b-5df5-85ba-3aa1a70510be
+
+	measure 'Criterio candidatas' = "Presupuesto ≤ P25 (US$ " & FORMAT([Umbral presupuesto reducido] / 1000000, "0.0", "es-CL") & " M) · ingresos ≥ P75 (US$ " & FORMAT([Umbral ingresos altos] / 1000000, "0.0", "es-CL") & " M). Umbrales de las 3.540 películas elegibles; los filtros acotan la lista."
+		lineageTag: a8263e16-a656-534c-886c-85fbed61c987
+
+	measure 'Top 10 popularidad géneros' = IF([Total contenidos] >= 100 && RANKX(FILTER(ALLSELECTED(generos[genre]), CALCULATE([Total contenidos]) >= 100), CALCULATE([Popularidad mediana]),, DESC, DENSE) <= 10, [Popularidad mediana])
+		formatString: 0.0
+		lineageTag: 6d043983-2e67-5a38-a0ce-b383b62b8a31
+
+	column content_id
+		dataType: string
+		lineageTag: cf87a676-4f61-563f-97e7-f00a2bffd088
+		summarizeBy: none
+		sourceColumn: content_id
+
+	column show_id
+		dataType: string
+		lineageTag: 4f179891-1ac0-5a4a-bf06-66e73ac0e62f
+		summarizeBy: none
+		sourceColumn: show_id
+
+	column type
+		dataType: string
+		lineageTag: d95ae55c-17c7-58be-9cf7-1579ba982e24
+		summarizeBy: none
+		sourceColumn: type
+
+	column title
+		dataType: string
+		lineageTag: 97295faf-582b-561f-ad36-ba2ff583b41f
+		summarizeBy: none
+		sourceColumn: title
+
+	column release_year
+		dataType: int64
+		lineageTag: bfd08e42-9233-5123-9271-176bb2a08199
+		summarizeBy: sum
+		sourceColumn: release_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_added
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 19962866-0e58-51af-aed0-fe049b465467
+		summarizeBy: none
+		sourceColumn: date_added
+
+		variation Variación
+			isDefault
+			relationship: 00a35c4c-57e7-4a73-8319-ca3d5f29c98d
+			defaultHierarchy: LocalDateTable_a74d5276-9897-41b4-975b-6d598488db25.'Jerarquía de fechas'
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column language
+		dataType: string
+		lineageTag: 16a7ed0c-043b-5b3b-a1c4-218c3858846b
+		summarizeBy: none
+		sourceColumn: language
+
+	column popularity
+		dataType: double
+		lineageTag: 2bb92c3d-c91c-5467-828b-1424a98505a9
+		summarizeBy: sum
+		sourceColumn: popularity
+
+		annotation SummarizationSetBy = Automatic
+
+	column popularity_conflict
+		dataType: boolean
+		lineageTag: 6c50d307-980c-5d21-8d27-0dbb9fe64dc4
+		summarizeBy: none
+		sourceColumn: popularity_conflict
+
+	column vote_average
+		dataType: double
+		lineageTag: bccaa721-bf70-5f1b-ab56-985559652cb4
+		summarizeBy: sum
+		sourceColumn: vote_average
+
+		annotation SummarizationSetBy = Automatic
+
+	column vote_count
+		dataType: int64
+		lineageTag: b26acc99-3087-57d3-9b31-841232a8afb3
+		summarizeBy: sum
+		sourceColumn: vote_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column display_title
+		dataType: string
+		lineageTag: 4220973e-a986-5345-90a4-c3b9afb66965
+		summarizeBy: none
+		sourceColumn: display_title
+
+	column language_label
+		dataType: string
+		lineageTag: 9d9bd74f-234a-5494-91e3-8455497cf0b1
+		summarizeBy: none
+		sourceColumn: language_label
+
+	measure 'Diferencia entre tipos' = VAR m = CALCULATE([Total contenidos], KEEPFILTERS(catalogo[type] = "Movie")) VAR s = CALCULATE([Total contenidos], KEEPFILTERS(catalogo[type] = "TV Show")) RETURN IF(m > 0 && s > 0, "Diferencia entre tipos: " & FORMAT(ABS(m - s), "#,0") & " títulos", "Un solo tipo visible")
+		lineageTag: 6b211772-bc3c-5ec7-a4f9-5b616848edb2
+
+	partition catalogo = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\LzzZ\Desktop\visualizacion de datos\streamview-analytics-visualizacion-datos\powerbi\data\catalogo.csv"), [Delimiter=",", Columns=13, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Headers, {{"content_id", type text}, {"show_id", type text}, {"type", type text}, {"title", type text}, {"display_title", type text}, {"release_year", Int64.Type}, {"date_added", type date}, {"language", type text}, {"language_label", type text}, {"popularity", type number}, {"popularity_conflict", type logical}, {"vote_average", type number}, {"vote_count", Int64.Type}}, "en-US")
+				in
+					Typed
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table

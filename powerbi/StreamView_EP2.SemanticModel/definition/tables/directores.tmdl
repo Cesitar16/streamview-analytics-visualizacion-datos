@@ -1,0 +1,28 @@
+table directores
+	lineageTag: e4902894-7059-55ff-a246-c1c3b52f6fc5
+
+	column content_id
+		dataType: string
+		lineageTag: a8d42eaf-8603-545a-84c4-c5f3e921c5a5
+		summarizeBy: none
+		sourceColumn: content_id
+
+	column director
+		dataType: string
+		lineageTag: 5331e0ef-f673-5823-b3ce-31711271fa94
+		summarizeBy: none
+		sourceColumn: director
+
+	partition directores = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\LzzZ\Desktop\visualizacion de datos\streamview-analytics-visualizacion-datos\powerbi\data\directores.csv"), [Delimiter=",", Columns=2, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Headers, {{"content_id", type text}, {"director", type text}}, "en-US")
+				in
+					Typed
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table

@@ -1,0 +1,28 @@
+table generos
+	lineageTag: 4b537716-92ac-583c-8184-757b20ae1453
+
+	column content_id
+		dataType: string
+		lineageTag: 4681a124-0c11-5189-bfa6-cc8239afbe74
+		summarizeBy: none
+		sourceColumn: content_id
+
+	column genre
+		dataType: string
+		lineageTag: 1773bcfe-1068-556a-a7b8-51a0fcd1c846
+		summarizeBy: none
+		sourceColumn: genre
+
+	partition generos = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\LzzZ\Desktop\visualizacion de datos\streamview-analytics-visualizacion-datos\powerbi\data\generos.csv"), [Delimiter=",", Columns=2, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Headers, {{"content_id", type text}, {"genre", type text}}, "en-US")
+				in
+					Typed
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table

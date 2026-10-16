@@ -1,0 +1,25 @@
+model Model
+	culture: es-MX
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: es-CL
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DevMode"]
+
+annotation PBI_QueryOrder = ["catalogo","generos","paises","directores","actores","finanzas"]
+
+ref table catalogo
+ref table generos
+ref table paises
+ref table directores
+ref table actores
+ref table finanzas
+ref table DateTableTemplate_8ca51fc2-30bc-483a-af25-bca856655dba
+ref table LocalDateTable_a74d5276-9897-41b4-975b-6d598488db25
+
+ref cultureInfo es-MX

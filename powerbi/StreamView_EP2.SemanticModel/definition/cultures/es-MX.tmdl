@@ -1,0 +1,325 @@
+cultureInfo es-MX
+
+	linguisticMetadata =
+			{
+			  "Version": "2.0.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "catalogo.language_label": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "catalogo",
+			          "ConceptualProperty": "language_label"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Idioma": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "catalogo.release_year": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "catalogo",
+			          "ConceptualProperty": "release_year"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Año de estreno": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "catalogo.type": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "catalogo",
+			          "ConceptualProperty": "type"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Tipo": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "catalogo.display_title": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "catalogo",
+			          "ConceptualProperty": "display_title"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Título": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "catalogo.vote_average": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "catalogo",
+			          "ConceptualProperty": "vote_average"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Calificación": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "catalogo.vote_count": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "catalogo",
+			          "ConceptualProperty": "vote_count"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Votos": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "catalogo.content_id": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "catalogo",
+			          "ConceptualProperty": "content_id"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Título": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "paises.country": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "paises",
+			          "ConceptualProperty": "country"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "País": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "generos.genre": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "generos",
+			          "ConceptualProperty": "genre"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Género": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "directores.director": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "directores",
+			          "ConceptualProperty": "director"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Director": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "finanzas.content_id": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "finanzas",
+			          "ConceptualProperty": "content_id"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Película": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "actores.actor": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "actores",
+			          "ConceptualProperty": "actor"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Intérprete": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "finanzas.budget": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "finanzas",
+			          "ConceptualProperty": "budget"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Presupuesto · USD": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "finanzas.revenue": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "finanzas",
+			          "ConceptualProperty": "revenue"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Ingresos · USD": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "finanzas.return_multiple": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "finanzas",
+			          "ConceptualProperty": "return_multiple"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Ingresos / presupuesto": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    }
+			  }
+			}
+		contentType: json

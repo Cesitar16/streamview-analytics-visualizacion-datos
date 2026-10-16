@@ -19,6 +19,17 @@ Thumbs.db
 # Datos de origen: se proporcionan localmente y pueden ser voluminosos.
 # El directorio y su .gitkeep se conservan versionables.
 data/raw/*.csv
+powerbi/data/*.csv
 
-# Artefactos internos de planificación de Superpowers.
-docs/superpowers/
+# Estado local y cachés de Power BI Desktop (el PBIP/TMDL/PBIR sí se versiona).
+**/.pbi/
+
+# Vistas previas temporales de revisión de PDF.
+output/pdf/*preview*.png
+
+# Planes y archivos locales de trabajo.
+**/superpowers/
+tmp/
+
+# Paquete local de datos para adjuntar por la plataforma académica.
+output/entrega/

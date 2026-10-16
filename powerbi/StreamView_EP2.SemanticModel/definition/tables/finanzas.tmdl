@@ -1,0 +1,40 @@
+table finanzas
+	lineageTag: a55c2f0a-380a-50a0-90f2-992872752a76
+
+	column content_id
+		dataType: string
+		lineageTag: bb09ab05-6fce-54f6-9392-7c6efefcc999
+		summarizeBy: none
+		sourceColumn: content_id
+
+	column budget
+		dataType: int64
+		lineageTag: c8265062-2502-5fc2-aad7-b275af4127f6
+		summarizeBy: none
+		sourceColumn: budget
+
+	column revenue
+		dataType: int64
+		lineageTag: 3a654c48-8fac-56a8-839d-76330a26d07c
+		summarizeBy: none
+		sourceColumn: revenue
+
+	column return_multiple
+		dataType: double
+		lineageTag: 7e1e9a5c-54b6-5049-abca-cfdb17839905
+		summarizeBy: none
+		sourceColumn: return_multiple
+
+	partition finanzas = m
+		mode: import
+		source =
+				let
+					Source = Csv.Document(File.Contents("C:\Users\LzzZ\Desktop\visualizacion de datos\streamview-analytics-visualizacion-datos\powerbi\data\finanzas.csv"), [Delimiter=",", Columns=4, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+					Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+					Typed = Table.TransformColumnTypes(Headers, {{"content_id", type text}, {"budget", Int64.Type}, {"revenue", Int64.Type}, {"return_multiple", type number}}, "en-US")
+				in
+					Typed
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table

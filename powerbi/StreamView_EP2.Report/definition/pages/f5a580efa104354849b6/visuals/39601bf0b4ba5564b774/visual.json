@@ -1,0 +1,189 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "39601bf0b4ba5564b774",
+  "position": {
+    "x": 1090,
+    "y": 2160,
+    "z": 32000,
+    "height": 400,
+    "width": 790,
+    "tabOrder": 32000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "catalogo"
+                    }
+                  },
+                  "Property": "display_title"
+                }
+              },
+              "queryRef": "catalogo.display_title",
+              "nativeQueryRef": "display_title",
+              "displayName": "Título"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "finanzas"
+                    }
+                  },
+                  "Property": "budget"
+                }
+              },
+              "queryRef": "finanzas.budget",
+              "nativeQueryRef": "budget",
+              "displayName": "Presupuesto · USD"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "finanzas"
+                    }
+                  },
+                  "Property": "revenue"
+                }
+              },
+              "queryRef": "finanzas.revenue",
+              "nativeQueryRef": "revenue",
+              "displayName": "Ingresos · USD"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "finanzas"
+                    }
+                  },
+                  "Property": "return_multiple"
+                }
+              },
+              "queryRef": "finanzas.return_multiple",
+              "nativeQueryRef": "return_multiple",
+              "displayName": "Ingresos / presupuesto"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "finanzas"
+                  }
+                },
+                "Property": "revenue"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Películas de bajo presupuesto y altos ingresos · muestra financiera'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "FilterLowBudgetHighRevenue",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "catalogo"
+              }
+            },
+            "Property": "Candidata: presupuesto bajo e ingresos altos"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "c",
+              "Entity": "catalogo",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 2,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "c"
+                        }
+                      },
+                      "Property": "Candidata: presupuesto bajo e ingresos altos"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "0D"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ]
+  }
+}

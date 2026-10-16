@@ -1,0 +1,15 @@
+{
+  "name": "StreamView-EP2.json",
+  "dataColors": ["#2778C7", "#18A999", "#EA8C3D", "#8265C9", "#5AAB6A", "#D95F85", "#629FBD", "#BAA446"],
+  "background": "#F3F6FA",
+  "foreground": "#223247",
+  "tableAccent": "#2778C7",
+  "good": "#18A999",
+  "neutral": "#EA8C3D",
+  "bad": "#D95F85",
+  "textClasses": {
+    "title": {"fontFace": "Segoe UI", "fontSize": 16, "color": "#223247"},
+    "header": {"fontFace": "Segoe UI", "fontSize": 13, "color": "#223247"},
+    "label": {"fontFace": "Segoe UI", "fontSize": 12, "color": "#43566B"}
+  }
+}

@@ -13,7 +13,7 @@ La evaluación 1 estableció la limpieza, las claves y las vistas analíticas de
 
 ## 2. Arquitectura y herramientas
 
-`data/raw/` → función de preparación aprobada en EP1 (`src/data_cleaning.py`) → vistas analíticas en memoria → aplicación Python (`dashboard/app.py`) y seis exportaciones CSV locales (`powerbi/data/`) para el informe Power BI (`powerbi/StreamView_EP2.pbip`). EP1 no generó un CSV persistente en `data/processed/`; EP2 reconstruye las mismas vistas desde los originales sin alterarlos. El treemap de géneros se dibuja con D3 dentro de la aplicación. Plotly aporta barras, dispersión y mapas; Streamlit aporta navegación, filtros y descarga; Power BI aporta modelo tabular, medidas DAX y una versión de los paneles para escritorio.
+`data/raw/` → función de preparación aprobada en EP1 (`src/data_cleaning.py`) → vistas analíticas en memoria → aplicación Python (`dashboard/app.py`) y seis exportaciones CSV locales (`powerbi/data/`) para el informe Power BI (`powerbi/StreamView_EP2.pbip`). EP1 no generó un CSV persistente en `data/processed/`; EP2 reconstruye las mismas vistas desde los originales sin alterarlos. El treemap de géneros se dibuja con D3 dentro de la aplicación. Plotly aporta líneas, barras, dispersión y mapas; Streamlit aporta navegación, filtros, comparador de géneros y descarga; Power BI aporta modelo tabular, medidas DAX y una versión de los paneles para escritorio.
 
 Se eligió Python por la limpieza trazable y el análisis de datos; D3 por el treemap con interacción específica; Power BI por el modelo de datos y la experiencia de exploración de negocio. Esta combinación cumple el requisito de integración sin atribuir a una herramienta cálculos que realiza otra.
 
@@ -41,9 +41,9 @@ La dispersión resulta apropiada para estudiar relaciones entre dos variables co
 
 Al abrir sin filtros muestra **31.991 contenidos**: 16.000 películas y 15.991 series. Hay **147 países**, **83 idiomas** y **28 géneros** representados. Drama aparece en 14.769 títulos y Comedia en 9.105. Estados Unidos está asociado a 10.955 títulos, Japón a 2.869 y Reino Unido a 2.608. Inglés (`en`) aparece en 13.969 títulos. Estos números describen amplitud del catálogo, no audiencia ni reproducciones.
 
-Las tarjetas KPI permiten ver el efecto de cada filtro. Las columnas por año muestran la distribución registrada en la fuente; `date_added.year = release_year` para todos los registros, por lo que **no es válido inferir una política real de incorporación**. El gráfico de tipo, las barras de países e idiomas, el treemap D3 de géneros y el mapa muestran composiciones complementarias. El mapa se interpreta como países asociados a producciones, no como consumo local.
+Las tarjetas KPI permiten ver el efecto de cada filtro. La serie de líneas por tipo muestra la distribución anual registrada en la fuente; `date_added.year = release_year` para todos los registros, por lo que **no es válido inferir una política real de incorporación**. El gráfico de tipo, las barras de países e idiomas, el treemap D3 de géneros y el mapa muestran composiciones complementarias. El mapa se interpreta como países asociados a producciones, no como consumo local.
 
-La navegación comienza con esta vista general y pasa a la página analítica solo cuando se necesita evaluar candidatos. El treemap muestra participación relativa de géneros y permite explorar sus etiquetas; se complementa con barras porque las áreas son menos precisas para comparar valores cercanos. Las tarjetas y gráficos responden a los filtros de tipo, intervalo de años y género.
+La navegación comienza con esta vista general y pasa a la página analítica solo cuando se necesita evaluar candidatos. El treemap muestra participación relativa de géneros y permite explorar sus etiquetas; se complementa con barras porque las áreas son menos precisas para comparar valores cercanos. El comparador estratégico enfrenta dos géneros dentro de los filtros vigentes y comunica títulos únicos, formatos, popularidad mediana, calificación media y cobertura de votos. Como los géneros se solapan, sus segmentos no se suman para reconstruir el catálogo. Las tarjetas y gráficos responden a los filtros de tipo, intervalo de años y género.
 
 ## 6. Tablero de contenidos y adquisición
 
@@ -65,7 +65,7 @@ La escala logarítmica en ambos ejes permite ver películas pequeñas y grandes 
 
 ## 8. Evaluación crítica y límites
 
-**Fortalezas:** ambos tableros comparten reglas y claves, los KPI se reconcilian con los CSV oficiales, los filtros actualizan el conjunto de entidades antes de agregarlo y el análisis financiero muestra su población elegible. La versión Power BI permite explorar medidas y relaciones en escritorio; la versión Python añade controles de umbral y descarga.
+**Fortalezas:** ambos tableros comparten reglas y claves, los KPI se reconcilian con los CSV oficiales, los filtros actualizan el conjunto de entidades antes de agregarlo y el análisis financiero muestra su población elegible. La versión Power BI permite explorar medidas y relaciones en escritorio; la versión Python añade controles de umbral, descarga, serie temporal por formato y comparación de géneros.
 
 **Oportunidades de mejora:** incorporar una clasificación etaria verificada desde una fuente autorizada; reemplazar la fecha de incorporación por una fuente de eventos real; completar créditos y cobertura financiera; añadir pruebas de reconocimiento geográfico; y empaquetar los CSV oficiales por el canal permitido para ejecutar el proyecto en otro equipo. Los gráficos de Power BI y Streamlit cubren juntos los requisitos, pero no contienen las mismas vistas especializadas.
 

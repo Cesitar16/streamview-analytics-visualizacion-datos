@@ -12,6 +12,14 @@
 
 El historial de EP1 documenta el trabajo previo de los tres integrantes y la base analítica reutilizada en EP2.
 
+## Mejora verificable posterior de EP2
+
+| Integrante | Evidencia en la rama `feature/analytics-enhancements` |
+|---|---|
+| César | Commit `d8b437f`: serie temporal por tipo, comparador de géneros con títulos únicos, cuatro pruebas automatizadas y documentación metodológica. |
+
+La mejora reutiliza las vistas aprobadas de EP1 y no modifica los CSV originales ni las reglas de negocio existentes.
+
 ## Defensa de EP2
 
 `docs/guion_defensa_tecnica_ep2.md` organiza la exposición y las preguntas para César, Lucas e Ignacio. Los artefactos técnicos de EP2 están en `dashboard/`, `powerbi/`, `scripts/` y `tests/`, junto con el informe, la presentación y `docs/verificacion_demostracion_ep2.md`.

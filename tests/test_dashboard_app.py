@@ -36,10 +36,13 @@ class DashboardAppTests(unittest.TestCase):
         self.assertIn("Drama", app.get("iframe")[0].proto.srcdoc)
         self.assertEqual(len(app.get("download_button")), 1)
         self.assertIn(["choropleth"], chart_types(app))
-        self.assertEqual(len(json.loads(app.get("plotly_chart")[-1].proto.spec)["data"][0]["locations"]), 147)
+        maps = [json.loads(chart.proto.spec)["data"][0] for chart in app.get("plotly_chart")
+                if json.loads(chart.proto.spec)["data"][0]["type"] == "choropleth"]
+        self.assertEqual(len(maps[0]["locations"]), 147)
         self.assertTrue(any("No permite inferir altas reales" in note.value for note in app.caption))
         self.assertTrue(any("Diferencia: 9 títulos" in note.value for note in app.caption))
-        self.assertEqual(chart_types(app)[0], ["bar"])
+        self.assertEqual(chart_types(app)[0], ["scatter", "scatter"])
+        self.assertEqual(len(app.selectbox), 2)
 
         app.multiselect[0].set_value(["Movie"])
         app.multiselect[1].set_value(["Drama"])

@@ -25,6 +25,8 @@ from src.dashboard_data import (  # noqa: E402
     load_views,
     select_catalog,
 )
+from src.segment_comparison import annual_content_trend  # noqa: E402
+from dashboard.segment_comparison import render_segment_comparison  # noqa: E402
 
 
 st.set_page_config(page_title="StreamView | Análisis del catálogo", page_icon="🎬", layout="wide", initial_sidebar_state="expanded")
@@ -197,16 +199,24 @@ if executive:
     rated = selected.loc[selected["vote_count"].gt(0), "vote_average"]
     metric(cols[3], "Calificación media", f"{decimal(rated.mean(), 2)} / 10")
 
-    section("Años registrados y composición", "Los años describen la distribución de la fuente; las barras comparan tipos de contenido.")
+    section("Años registrados y composición", "Los años describen la distribución de la fuente; la línea permite comparar los tipos de contenido año a año.")
 
     left, right = st.columns(2)
     with left:
-        releases = selected.groupby("release_year", as_index=False).agg(titles=("content_id", "nunique"))
-        fig = px.bar(releases, x="release_year", y="titles", title="Títulos por año de estreno registrado",
-                     labels={"release_year": "Año de estreno", "titles": "Contenidos"},
-                     color_discrete_sequence=["#2875b9"])
-        fig.update_xaxes(type="category")
-        chart(fig, note="La fuente contiene cerca de 2.000 títulos por año y repite el año de estreno como año de incorporación. No permite inferir altas reales ni una tendencia del mercado.")
+        releases = annual_content_trend(selected)
+        fig = px.line(
+            releases,
+            x="release_year",
+            y="titles",
+            color="type",
+            markers=True,
+            title="Distribución anual registrada por tipo",
+            labels={"release_year": "Año de estreno registrado", "titles": "Contenidos", "type": "Tipo"},
+            color_discrete_map=COLORS,
+        )
+        fig.update_traces(hovertemplate="Año %{x}<br>%{fullData.name}: %{y} títulos<extra></extra>")
+        fig.update_xaxes(dtick=1)
+        chart(fig, note="Cada línea usa títulos únicos y permite comparar películas y series. La fuente repite el año de estreno como incorporación. No permite inferir altas reales ni una tendencia de mercado.")
     with right:
         type_counts = selected.groupby("type", as_index=False).agg(titles=("content_id", "nunique"))
         type_counts["label"] = type_counts["titles"].map(number)
@@ -253,6 +263,8 @@ if executive:
     fig.update_geos(showframe=False, showcoastlines=True, projection_type="natural earth")
     chart(fig, height=490)
     st.caption("Un título puede tener varios países y géneros; por eso estos recuentos no suman el total. La cobertura del mapa depende de los nombres geográficos reconocidos.")
+
+    render_segment_comparison(selected, views, colors=COLORS, chart=chart)
 
 else:
     section("Contenidos y adquisición", "Compara interés, valoración, créditos y desempeño financiero dentro de la selección.")

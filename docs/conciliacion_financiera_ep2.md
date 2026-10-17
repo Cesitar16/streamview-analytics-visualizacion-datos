@@ -10,6 +10,6 @@ Los dos CSV oficiales ubicados en `data/raw/` son la fuente de cálculo de esta 
 
 La nota final del informe EP1 reconoce una discrepancia entre reconstrucción local y valor documentado, y opta por el valor versionado. Para EP2 se emplea el cálculo reproducible de los CSV presentes, no la cifra transcrita en el documento anterior. La causa histórica de la discrepancia no puede determinarse con el repositorio actual; no se modifica el informe EP1.
 
-**Alcance:** las sumas corresponden al subconjunto elegible de 3.540 de 16.000 películas (22,125 %). El multiplicador de cartera `sum(revenue) / sum(budget)` es aproximadamente 2,9166×. Es diferente de la mediana del múltiplo por película y no debe llamarse utilidad neta.
+**Alcance:** las sumas corresponden al subconjunto elegible de 3.540 de 16.000 películas (22,125 %). El multiplicador de cartera `sum(revenue) / sum(budget)` es aproximadamente 2,9166×. El **ROI bruto aproximado agregado** es `((sum(revenue) - sum(budget)) / sum(budget))`, equivalente a **191,6554 %**. Son indicadores relacionados, pero tienen unidades distintas: el primero se expresa en veces y el segundo en porcentaje. Ninguno representa utilidad neta.
 
 **Limitación de moneda:** los CSV contienen números sin una columna de divisa. La documentación EP1 presenta `budget` y `revenue` como USD; EP2 conserva esa convención y debe declararla como supuesto de presentación.

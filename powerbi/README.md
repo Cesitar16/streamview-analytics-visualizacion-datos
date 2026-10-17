@@ -43,10 +43,11 @@ Presupuesto promedio = AVERAGE(finanzas[budget])
 Presupuesto total = SUM(finanzas[budget])
 Ingresos totales = SUM(finanzas[revenue])
 Ingresos / presupuesto = DIVIDE([Ingresos totales], [Presupuesto total])
+ROI bruto aproximado = DIVIDE([Ingresos totales] - [Presupuesto total], [Presupuesto total])
 Retorno mediano por título = MEDIAN(finanzas[return_multiple])
 ```
 
-`Ingresos / presupuesto` es el múltiplo aproximado definido por el caso, no un ROI porcentual clásico. El promedio de `popularity` excluye los nueve identificadores de series conflictivos porque sus valores quedaron nulos en la vista de EP1. La calificación se limita a títulos con votos.
+`Ingresos / presupuesto` es un múltiplo bruto expresado en veces. `ROI bruto aproximado` es una razón decimal formateada como porcentaje y se calcula sobre los importes agregados, no como el promedio de retornos individuales. Ninguno representa utilidad neta ni confirma moneda. El promedio de `popularity` excluye los nueve identificadores de series conflictivos porque sus valores quedaron nulos en la vista de EP1. La calificación se limita a títulos con votos.
 
 ## Páginas incluidas y alcance
 

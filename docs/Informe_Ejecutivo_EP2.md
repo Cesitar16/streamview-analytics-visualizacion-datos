@@ -55,7 +55,7 @@ El recorrido de interacción es: acotar tipo, año, género, país, idioma y not
 
 ## 7. Módulo financiero
 
-El subconjunto elegible es **3.540 de 16.000 películas (22,125 %)**. El presupuesto acumulado es **125.960.767.278** y los ingresos acumulados **367.371.433.138**. La razón agregada ingresos/presupuesto es **2,9166×**. Es un múltiplo bruto aproximado, no utilidad neta ni ROI porcentual. La convención USD proviene del informe anterior; los CSV no incluyen una columna que confirme divisa. La dispersión presupuesto–ingresos, el Top 10 de ingresos y las tarjetas contextualizan la variación por título.
+El subconjunto elegible es **3.540 de 16.000 películas (22,125 %)**. El presupuesto acumulado es **125.960.767.278** y los ingresos acumulados **367.371.433.138**. La razón agregada ingresos/presupuesto es **2,9166×**; el **ROI bruto aproximado agregado** es **191,66 %**, calculado como `(ingresos - presupuesto) / presupuesto`. El múltiplo y el porcentaje son indicadores distintos. El ROI no representa utilidad neta: no incluye costos adicionales. La convención USD proviene del informe anterior; los CSV no incluyen una columna que confirme divisa. La dispersión presupuesto–ingresos, el Top 10 de ingresos y las tarjetas contextualizan la variación por título.
 
 La documentación de la evaluación 1 contiene totales ligeramente diferentes. Para esta entrega se prioriza el cálculo repetible desde los dos CSV presentes, con detalle en `docs/conciliacion_financiera_ep2.md`. No se mezclan ambas series de cifras.
 

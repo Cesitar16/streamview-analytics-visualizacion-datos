@@ -5,6 +5,7 @@ Run from the repository root with ``uv run streamlit run dashboard/app.py``.
 
 import json
 import sys
+from html import escape
 from pathlib import Path
 
 import pandas as pd
@@ -29,7 +30,7 @@ from src.segment_comparison import annual_content_trend  # noqa: E402
 from dashboard.segment_comparison import render_segment_comparison  # noqa: E402
 
 
-st.set_page_config(page_title="StreamView | Análisis del catálogo", page_icon="🎬", layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(page_title="StreamView | Análisis del catálogo", page_icon="🎬", layout="wide", initial_sidebar_state="auto")
 st.markdown(
     """
     <style>
@@ -106,14 +107,15 @@ def chart(fig: go.Figure, *, height: int = 400, note: str | None = None):
             st.caption(note)
 
 
-def d3_treemap(data: pd.DataFrame):
+def d3_treemap(data: pd.DataFrame, selected_titles: int):
     payload = json.dumps(
-        [{"name": str(row.genre), "value": int(row.titles)} for row in data.itertuples()],
+        {"records": [{"name": str(row.genre), "value": int(row.titles)} for row in data.itertuples()],
+         "selectedTitles": selected_titles},
         ensure_ascii=False,
     ).replace("<", "\\u003c")
     html = (ROOT / "dashboard/d3_treemap.html").read_text(encoding="utf-8")
     d3_source = (ROOT / "dashboard/d3.v7.min.js").read_text(encoding="utf-8")
-    st.iframe(html.replace("__DATA__", payload).replace("__D3__", d3_source), height=405)
+    st.iframe(html.replace("__DATA__", payload).replace("__D3__", d3_source), height=590)
 
 
 try:
@@ -161,6 +163,7 @@ with st.sidebar:
             min_country = st.slider("Títulos mínimos por país", 20, 500, 100, 10, key="sv_min_country")
     else:
         countries, languages, rating_range = [], [], None
+        st.caption("Origen y valoración se filtran en Contenidos y adquisición. Sus selecciones se conservan al volver a esa vista.")
 selected = select_catalog(
     views, types=types, years=years, genres=genres, countries=countries,
     languages=languages, rating_range=rating_range,
@@ -174,8 +177,20 @@ st.markdown(
     'La selección actualiza indicadores y visualizaciones de esta perspectiva.</div>',
     unsafe_allow_html=True,
 )
+filter_details = []
+if types:
+    filter_details.append("Tipo: " + ", ".join("Película" if value == "Movie" else "Serie" for value in types))
+if years != (2010, 2025):
+    filter_details.append(f"Estreno: {years[0]}–{years[1]}")
+for label, values in (("Género", genres), ("País", countries), ("Idioma", languages)):
+    if values:
+        filter_details.append(f"{label}: " + ", ".join(map(str, values)))
+if rating_range is not None and rating_range != (0.0, 10.0):
+    filter_details.append(f"Calificación: {decimal(rating_range[0])}–{decimal(rating_range[1])}")
+st.caption("Filtros aplicados: " + (" · ".join(escape(item) for item in filter_details) if filter_details else "ninguno"))
 if selected.empty:
-    st.warning("No hay contenidos para la combinación de filtros seleccionada.")
+    st.warning("No hay contenidos para esta combinación. Amplía el período o quita un filtro para seguir explorando.")
+    st.button("Restablecer y ver todo el catálogo", on_click=reset_filters)
     st.stop()
 
 genre_counts = category_counts(selected, views["catalogo_generos"], "genre")
@@ -241,8 +256,8 @@ if executive:
     with right:
         with st.container(border=True):
             st.markdown("**Géneros por volumen**")
-            st.caption("El área representa la cantidad de títulos; pasa el cursor para ver el valor.")
-            d3_treemap(genre_counts)
+            st.caption("El área representa títulos asociados. Haz clic o usa la lista para consultar géneros pequeños.")
+            d3_treemap(genre_counts, len(selected))
 
     language_counts = (
         selected.dropna(subset=["language"])
@@ -281,40 +296,48 @@ else:
     section("Señales para elegir contenidos", "La popularidad y la calificación miden aspectos distintos. El tamaño de cada punto refleja la cantidad de votos.")
     left, right = st.columns(2)
     with left:
-        fig = px.scatter(eligible, x="popularity", y="vote_average", color="type",
-                         size="vote_count", size_max=12, hover_name="title",
-                         hover_data={"vote_count": True, "popularity": ":.1f", "vote_average": ":.2f"},
-                         log_x=True, color_discrete_map=COLORS, render_mode="webgl",
-                         title="Popularidad y calificación son señales distintas",
-                         labels={"popularity": "Índice de popularidad · escala log", "vote_average": "Calificación / 10", "type": "Tipo"})
-        fig.update_traces(marker=dict(opacity=0.35, line=dict(width=0)))
-        chart(fig, height=460)
+        if eligible.empty:
+            st.info("Ningún título de la selección tiene popularidad válida y votos para esta comparación.")
+        else:
+            fig = px.scatter(eligible, x="popularity", y="vote_average", color="type",
+                             size="vote_count", size_max=12, hover_name="title",
+                             hover_data={"vote_count": True, "popularity": ":.1f", "vote_average": ":.2f"},
+                             log_x=True, color_discrete_map=COLORS, render_mode="webgl",
+                             title="Popularidad y calificación son señales distintas",
+                             labels={"popularity": "Índice de popularidad · escala log", "vote_average": "Calificación / 10", "type": "Tipo"})
+            fig.update_traces(marker=dict(opacity=0.35, line=dict(width=0)))
+            chart(fig, height=460)
     with right:
         performance = genre_performance(selected, views)
         top_perf = performance.loc[performance["titles"].ge(30)].nlargest(12, "median_popularity")
         popularity_tab, rating_tab = st.tabs(["Popularidad", "Calificación"])
         with popularity_tab:
-            fig = px.bar(top_perf.sort_values("median_popularity"), x="median_popularity", y="genre",
-                         orientation="h", title="Popularidad mediana por género",
-                         hover_data=["titles"], labels={"median_popularity": "Popularidad mediana", "genre": "Género"},
-                         color_discrete_sequence=["#2875b9"])
-            chart(fig, height=420, note="Incluye títulos con índice de popularidad válido; mínimo 30 títulos por género.")
+            if top_perf.empty:
+                st.info("Ningún género alcanza el mínimo de 30 títulos con popularidad válida en esta selección.")
+            else:
+                fig = px.bar(top_perf.sort_values("median_popularity"), x="median_popularity", y="genre",
+                             orientation="h", title="Popularidad mediana por género",
+                             hover_data=["titles"], labels={"median_popularity": "Popularidad mediana", "genre": "Género"},
+                             color_discrete_sequence=["#2875b9"])
+                chart(fig, height=420, note="Incluye títulos con índice de popularidad válido; mínimo 30 títulos por género.")
         with rating_tab:
             top_ratings = performance.loc[performance["rated_titles"].ge(100)].nlargest(12, "mean_rating").sort_values("mean_rating")
-            fig = px.scatter(top_ratings, x="mean_rating", y="genre", size="rated_titles", size_max=14,
-                             title="Calificación media por género",
-                             hover_data={"rated_titles": True, "mean_rating": ":.2f"},
-                             labels={"mean_rating": "Calificación media / 10", "genre": "Género", "rated_titles": "Títulos con votos"},
-                             color_discrete_sequence=["#17a398"])
-            if not top_ratings.empty:
+            if top_ratings.empty:
+                st.info("Ningún género alcanza el mínimo de 100 títulos valorados en esta selección.")
+            else:
+                fig = px.scatter(top_ratings, x="mean_rating", y="genre", size="rated_titles", size_max=14,
+                                 title="Calificación media por género",
+                                 hover_data={"rated_titles": True, "mean_rating": ":.2f"},
+                                 labels={"mean_rating": "Calificación media / 10", "genre": "Género", "rated_titles": "Títulos con votos"},
+                                 color_discrete_sequence=["#17a398"])
                 lower = max(0, top_ratings["mean_rating"].min() - 0.3)
                 upper = min(10, top_ratings["mean_rating"].max() + 0.3)
                 fig.update_xaxes(range=[lower, upper])
-            chart(fig, height=420, note="Eje acotado para distinguir notas cercanas; consulta el valor y la cantidad de títulos al pasar el cursor.")
+                chart(fig, height=420, note="Eje acotado para distinguir notas cercanas; consulta el valor y la cantidad de títulos al pasar el cursor.")
     with st.container(border=True):
         st.markdown("**Géneros por volumen de contenidos**")
         st.caption("El área de cada bloque representa títulos asociados; las categorías pueden superponerse.")
-        d3_treemap(genre_counts)
+        d3_treemap(genre_counts, len(selected))
 
     section("Rankings y cobertura", "Los rankings usan los umbrales definidos en el panel lateral.")
     left, right = st.columns(2)
@@ -324,6 +347,8 @@ else:
         ).head(10)[["title", "type", "vote_average", "vote_count"]]
         with st.container(border=True):
             st.markdown(f"**Diez títulos mejor evaluados · ≥ {min_votes} votos**")
+            if top_rated.empty:
+                st.info("Ningún título alcanza el mínimo de votos. Reduce el umbral en el panel lateral.")
             st.dataframe(top_rated, hide_index=True, width="stretch", height=385,
                          column_config={"title": "Título", "type": "Tipo", "vote_average": st.column_config.NumberColumn("Nota", format="%.2f"), "vote_count": st.column_config.NumberColumn("Votos", format="%d")})
     with right:
@@ -341,23 +366,25 @@ else:
             st.caption("Los créditos informados tienen cobertura parcial, especialmente en series.")
 
     geo = country_performance(selected, views, min_country)
-    fig = px.choropleth(geo, locations="country", locationmode="country names", color="mean_rating",
-                        hover_name="country", hover_data={"titles": True},
-                        title=f"Calificación media por país · mínimo {min_country} títulos valorados",
-                        range_color=(0, 10), color_continuous_scale="Teal",
-                        labels={"mean_rating": "Calificación media"})
-    fig.update_geos(showframe=False, showcoastlines=True, projection_type="natural earth")
-    chart(fig, height=490)
-    top_countries = geo.nlargest(10, "mean_rating").sort_values("mean_rating")
-    ranking = px.scatter(top_countries, x="mean_rating", y="country", size="titles", size_max=15,
-                         title="Países con mayor calificación media",
-                         hover_data={"titles": True, "mean_rating": ":.2f"},
-                         labels={"mean_rating": "Calificación media / 10", "country": "País", "titles": "Títulos valorados"},
-                         color_discrete_sequence=["#2875b9"])
-    if not top_countries.empty:
+    if geo.empty:
+        st.info(f"Ningún país alcanza {min_country} títulos valorados. Reduce el umbral en el panel lateral.")
+    else:
+        fig = px.choropleth(geo, locations="country", locationmode="country names", color="mean_rating",
+                            hover_name="country", hover_data={"titles": True},
+                            title=f"Calificación media por país · mínimo {min_country} títulos valorados",
+                            range_color=(0, 10), color_continuous_scale="Teal",
+                            labels={"mean_rating": "Calificación media"})
+        fig.update_geos(showframe=False, showcoastlines=True, projection_type="natural earth")
+        chart(fig, height=490)
+        top_countries = geo.nlargest(10, "mean_rating").sort_values("mean_rating")
+        ranking = px.scatter(top_countries, x="mean_rating", y="country", size="titles", size_max=15,
+                             title="Países con mayor calificación media",
+                             hover_data={"titles": True, "mean_rating": ":.2f"},
+                             labels={"mean_rating": "Calificación media / 10", "country": "País", "titles": "Títulos valorados"},
+                             color_discrete_sequence=["#2875b9"])
         ranking.update_xaxes(range=[max(0, top_countries["mean_rating"].min() - 0.3),
                                      min(10, top_countries["mean_rating"].max() + 0.3)])
-    chart(ranking, height=400, note="Eje acotado y mínimo de cobertura aplicados; el tamaño indica títulos valorados.")
+        chart(ranking, height=400, note="Eje acotado y mínimo de cobertura aplicados; el tamaño indica títulos valorados.")
 
     section("Películas · análisis financiero", "Solo películas con presupuesto e ingresos positivos e informados.")
     finance = financial_selection(selected, views)

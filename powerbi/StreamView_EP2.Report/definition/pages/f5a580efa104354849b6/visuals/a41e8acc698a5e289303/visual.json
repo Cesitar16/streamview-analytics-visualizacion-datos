@@ -3,7 +3,7 @@
   "name": "a41e8acc698a5e289303",
   "position": {
     "x": 705,
-    "y": 1085,
+    "y": 1105,
     "z": 21000,
     "height": 115,
     "width": 365,
@@ -57,6 +57,29 @@
       ]
     },
     "objects": {
+      "value": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1000000D"
+                }
+              }
+            },
+            "labelPrecision": {
+              "expr": {
+                "Literal": {
+                  "Value": "2D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
       "label": [
         {
           "properties": {

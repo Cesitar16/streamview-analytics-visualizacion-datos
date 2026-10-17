@@ -29,11 +29,29 @@ def validate_financial_view(movies_financial_valid: pd.DataFrame) -> None:
 
 
 def add_roi_approx(movies_financial_valid: pd.DataFrame) -> pd.DataFrame:
-    """Devuelve una copia con ROI aproximado definido por el caso: revenue / budget."""
+    """Devuelve una copia con el múltiplo individual ``revenue / budget``.
+
+    El nombre de columna se conserva por compatibilidad con el análisis de EP1.
+    No representa el ROI bruto porcentual agregado del portafolio.
+    """
     validate_financial_view(movies_financial_valid)
     financial = movies_financial_valid.copy(deep=True)
     financial["roi_approx"] = financial["revenue"] / financial["budget"]
     return financial
+
+
+def gross_roi_approx(financial: pd.DataFrame) -> float | None:
+    """Calcula el ROI bruto agregado como razón decimal, no como porcentaje.
+
+    La fórmula es ``(SUM(revenue) - SUM(budget)) / SUM(budget)``. Devuelve
+    ``None`` cuando no hay presupuesto agregado, para que la interfaz no
+    convierta una ausencia de datos en un 0 % ficticio.
+    """
+    total_budget = float(financial["budget"].sum())
+    if total_budget <= 0:
+        return None
+    total_revenue = float(financial["revenue"].sum())
+    return (total_revenue - total_budget) / total_budget
 
 
 def _spearman(x: pd.Series, y: pd.Series) -> float:
@@ -58,17 +76,22 @@ def financial_kpis(financial: pd.DataFrame, total_movies: int) -> pd.DataFrame:
     """Construye KPIs financieros con unidad y definición auditables."""
     if total_movies < len(financial):
         raise ValueError("total_movies no puede ser menor que las películas elegibles")
+    total_budget = float(financial["budget"].sum())
+    total_revenue = float(financial["revenue"].sum())
+    revenue_multiple = total_revenue / total_budget if total_budget > 0 else None
     values = [
         ("Cobertura financiera", len(financial) / total_movies * 100, "% de Movies", "Películas elegibles sobre Movies totales."),
         ("Películas elegibles", len(financial), "películas", "Filas con budget > 0 y revenue > 0."),
-        ("Presupuesto total", financial["budget"].sum(), "USD", "Suma de budget en la vista financiera."),
+        ("Presupuesto total", total_budget, "USD", "Suma de budget en la vista financiera."),
         ("Presupuesto promedio", financial["budget"].mean(), "USD", "Media de budget en la vista financiera."),
         ("Presupuesto mediano", financial["budget"].median(), "USD", "Mediana de budget ante asimetría."),
-        ("Ingresos totales", financial["revenue"].sum(), "USD", "Suma de revenue en la vista financiera."),
+        ("Ingresos totales", total_revenue, "USD", "Suma de revenue en la vista financiera."),
         ("Ingresos promedio", financial["revenue"].mean(), "USD", "Media de revenue en la vista financiera."),
         ("Ingresos medianos", financial["revenue"].median(), "USD", "Mediana de revenue ante asimetría."),
-        ("ROI aproximado promedio", financial["roi_approx"].mean(), "multiplicador", "Media de revenue / budget por película."),
-        ("ROI aproximado mediano", financial["roi_approx"].median(), "multiplicador", "Mediana de revenue / budget por película."),
+        ("Múltiplo ingresos / presupuesto", revenue_multiple, "×", "SUM(revenue) / SUM(budget) del conjunto."),
+        ("ROI bruto aproximado", gross_roi_approx(financial), "%", "(SUM(revenue) - SUM(budget)) / SUM(budget); no es utilidad neta."),
+        ("Múltiplo individual promedio", financial["roi_approx"].mean(), "×", "Media de revenue / budget por película."),
+        ("Múltiplo individual mediano", financial["roi_approx"].median(), "×", "Mediana de revenue / budget por película."),
     ]
     return pd.DataFrame(values, columns=["kpi", "value", "unit", "definition"])
 

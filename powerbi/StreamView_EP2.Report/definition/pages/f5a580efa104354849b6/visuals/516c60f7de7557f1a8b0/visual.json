@@ -3,7 +3,7 @@
   "name": "516c60f7de7557f1a8b0",
   "position": {
     "x": 1495,
-    "y": 1085,
+    "y": 1105,
     "z": 23000,
     "height": 115,
     "width": 365,
@@ -23,11 +23,11 @@
                       "Entity": "catalogo"
                     }
                   },
-                  "Property": "Ingresos / presupuesto"
+                  "Property": "ROI bruto aproximado"
                 }
               },
-              "queryRef": "catalogo.Ingresos / presupuesto",
-              "nativeQueryRef": "Ingresos / presupuesto"
+              "queryRef": "catalogo.ROI bruto aproximado",
+              "nativeQueryRef": "ROI bruto aproximado"
             }
           ]
         }
@@ -48,7 +48,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Ingresos/presupuesto'"
+                "Value": "'ROI bruto aproximado'"
                 }
               }
             }

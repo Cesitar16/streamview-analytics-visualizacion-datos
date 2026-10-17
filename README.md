@@ -145,8 +145,9 @@ El equipo analizó el desempeño financiero de las películas usando
 `movies_financial_valid`, una vista preparada con la regla
 `budget > 0 AND revenue > 0`.
 
-El bloque incluye KPIs financieros, ROI aproximado (`revenue / budget`), la relación
-entre presupuesto e ingresos, los Top 10 por ingresos y por ROI, y el grupo de
+El bloque incluye KPIs financieros, el múltiplo individual `revenue / budget` y el
+ROI bruto agregado `((SUM(revenue) - SUM(budget)) / SUM(budget))`, la relación entre
+presupuesto e ingresos, los Top 10 por ingresos y por múltiplo, y el grupo de
 películas con bajo presupuesto y alto retorno. La implementación se encuentra en
 `notebooks/05_analisis_financiero.ipynb`, `src/financial_rules.py` y
 `docs/ignacio-silva.md`; las figuras quedan en `outputs/figures/` con el prefijo

@@ -5,6 +5,7 @@ from pathlib import Path
 import pandas as pd
 
 from src.data_cleaning import build_catalog_views
+from src.financial_rules import gross_roi_approx
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -117,7 +118,7 @@ def financial_selection(selected: pd.DataFrame, views: dict[str, object]) -> pd.
     return finance
 
 
-def financial_summary(finance: pd.DataFrame) -> dict[str, float]:
+def financial_summary(finance: pd.DataFrame) -> dict[str, float | int | None]:
     budget = float(finance["budget"].sum())
     revenue = float(finance["revenue"].sum())
     return {
@@ -126,5 +127,6 @@ def financial_summary(finance: pd.DataFrame) -> dict[str, float]:
         "average_budget": float(finance["budget"].mean()) if len(finance) else 0.0,
         "total_revenue": revenue,
         "portfolio_multiple": revenue / budget if budget else 0.0,
+        "gross_roi_approx": gross_roi_approx(finance),
         "median_title_multiple": float(finance["return_multiple"].median()) if len(finance) else 0.0,
     }

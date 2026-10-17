@@ -20,10 +20,11 @@
 
 ## Validación y alcance de la evidencia
 
-La copia del repositorio no incluye los CSV originales de `data/raw/`. Las pruebas nuevas usan tres títulos sintéticos en memoria; las capturas son de esa misma muestra, no representan las cifras oficiales del proyecto. No se crearon ni modificaron archivos CSV. La suite histórica que depende de los CSV oficiales queda pendiente de ejecutar en un entorno que los tenga.
+Los CSV originales no están versionados. Las pruebas nuevas usan tres títulos sintéticos en memoria y las capturas corresponden a esa muestra, por lo que no representan las cifras oficiales. Después de recibir los CSV oficiales, se copiaron sin modificar los archivos de Descargas y se verificó que cada copia tuviera el mismo SHA-256 que su fuente.
 
 - `uv run --locked python -m unittest tests.test_dashboard_ux -v`: dos escenarios correctos (panorama con estado vacío y reinicio; adquisición con filtros cruzados y base del treemap).
 - `uv run --locked python -m unittest tests.test_dashboard_ux tests.test_business_rules tests.test_financial_rules tests.test_delivery_tools -v`: 12 pruebas correctas con datos en memoria.
+- Se fusionó temporalmente la rama con el `main` que ya incluye las mejoras analíticas del PR #7. El merge automático no produjo conflictos. Con los CSV oficiales en ese árbol combinado, `python -m unittest discover -s tests -v` terminó con **23 pruebas correctas**. No se modificaron ni versionaron los CSV.
 - `uv run --locked python -m compileall -q dashboard/app.py` y `git diff --check`: sin errores.
 - Chrome con Playwright: panorama y adquisición a 1440 × 900, treemap a 720 px y 375 px, dashboard a 390 × 844. Se verificaron renderizado, selección de género, ausencia de desbordamiento horizontal en el treemap y ausencia de errores JavaScript.
 

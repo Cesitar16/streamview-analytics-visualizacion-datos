@@ -396,14 +396,16 @@ else:
         f'{number(movie_count)} películas ({decimal(coverage)} %).</strong> '
         'Interpreta estos resultados como una muestra parcial.</div>', unsafe_allow_html=True,
     )
-    st.caption("Ingresos / presupuesto es un múltiplo bruto, no utilidad neta ni rentabilidad porcentual. Montos en USD según la documentación EP1.")
+    st.caption("ROI bruto aproximado estima el retorno sobre presupuesto registrado; no considera costos adicionales ni representa utilidad neta. Ingresos / presupuesto sigue disponible como múltiplo bruto. Montos en USD según la documentación EP1.")
     cols = st.columns(2)
     metric(cols[0], "Presupuesto total", f"US$ {decimal(summary['total_budget']/1e9, 2)} mil M")
     metric(cols[1], "Ingresos totales", f"US$ {decimal(summary['total_revenue']/1e9, 2)} mil M")
-    cols = st.columns(3)
+    cols = st.columns(4)
     metric(cols[0], "Películas elegibles", number(summary['eligible_movies']))
     metric(cols[1], "Presupuesto medio", f"US$ {decimal(summary['average_budget']/1e6)} M")
-    metric(cols[2], "Ingresos / presupuesto", f"{decimal(summary['portfolio_multiple'], 2)}×")
+    gross_roi = summary["gross_roi_approx"]
+    metric(cols[2], "ROI bruto aproximado", f"{decimal(100 * gross_roi, 2)} %" if gross_roi is not None else "Sin datos")
+    metric(cols[3], "Ingresos / presupuesto", f"{decimal(summary['portfolio_multiple'], 2)}×")
     if finance.empty:
         st.info("La selección actual no contiene películas con datos financieros elegibles.")
     else:

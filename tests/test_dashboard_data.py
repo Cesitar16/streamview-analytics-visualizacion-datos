@@ -56,8 +56,13 @@ class DashboardDataTests(unittest.TestCase):
         self.assertEqual(summary["eligible_movies"], 3_540)
         self.assertEqual(summary["total_budget"], 125_960_767_278)
         self.assertEqual(summary["total_revenue"], 367_371_433_138)
+        self.assertAlmostEqual(summary["portfolio_multiple"], 2.916554424658258)
+        self.assertAlmostEqual(summary["gross_roi_approx"], 1.916554424658258)
+        self.assertAlmostEqual(summary["gross_roi_approx"], summary["portfolio_multiple"] - 1)
         tv_only = select_catalog(self.views, types=["TV Show"])
-        self.assertTrue(financial_selection(tv_only, self.views).empty)
+        empty_summary = financial_summary(financial_selection(tv_only, self.views))
+        self.assertEqual(empty_summary["eligible_movies"], 0)
+        self.assertIsNone(empty_summary["gross_roi_approx"])
 
 
 if __name__ == "__main__":

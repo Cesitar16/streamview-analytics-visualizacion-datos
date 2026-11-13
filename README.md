@@ -33,7 +33,7 @@ El notebook 03 y `src/business_rules.py` implementan los KPIs de Lucas Moncada s
 
 ## Evaluación 3 (EP5)
 
-El [informe ejecutivo](docs/Informe_Ejecutivo_EP5.md), la [matriz de evidencia y trazabilidad](docs/trazabilidad_ep5_ep6.md) y el [guion de presentación](docs/guion_presentacion_ep5.md) reúnen el análisis, la evaluación crítica y las recomendaciones. Las versiones para revisar o entregar son `output/pdf/StreamView_EP5_Informe.pdf` y `output/pdf/StreamView_EP5_Presentacion.pdf`. Los archivos EP2 se conservan como antecedentes. La matriz distingue los indicadores oficiales de EP5 de la preparación para el examen EP6.
+El [informe ejecutivo](docs/Informe_Ejecutivo_EP5.md) y la [matriz de evidencia y trazabilidad](docs/trazabilidad_ep5_ep6.md) reúnen el análisis, la evaluación crítica y las recomendaciones. Las versiones para revisar o entregar son `output/pdf/StreamView_EP5_Informe.pdf` y `output/pdf/StreamView_EP5_Presentacion.pdf`. Los archivos EP2 se conservan como antecedentes. La matriz distingue los indicadores oficiales de EP5 de la preparación para el examen EP6.
 
 ## Fuentes de datos
 

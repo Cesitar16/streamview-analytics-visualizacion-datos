@@ -34,16 +34,18 @@ Los indicadores se resumen a partir de la pauta EP5. Las secciones corresponden 
 | IE27 | Coherencia entre visual, análisis y decisión | §§4–9; matriz de recomendaciones | 4, 6, 8–10; filtros en vivo |
 | IE28 | Diseño visual, jerarquía y organización | §§4–8 | 4–9; contraste treemap/barras y dispersión |
 | IE29 | Legibilidad, acceso y comunicación visual | §§5, 6, 8; `docs/evaluacion_usabilidad_dashboard_ux.md` | 4, 6, 9; lista y teclado del treemap |
-| IE30 | Comunicación clara de hallazgos mediante visualizaciones | §§4–9 | 4, 6, 8–10; recorrido del guion |
+| IE30 | Comunicación clara de hallazgos mediante visualizaciones | §§4–9 | 4, 6, 8–10; demostración de filtros |
 | IE34 | Solución visual alineada al problema de negocio | §§1–2, 5–6, 9 | 1–2, 4–6, 10 |
 
 ## Preparación para el examen posterior
 
-El equipo puede reutilizar esta evidencia en la defensa EP6. Esta correspondencia sirve para planificar la exposición; los nombres y alcances de los indicadores deberán cotejarse con la pauta del examen cuando se entregue.
+El equipo puede reutilizar esta evidencia en la defensa EP6. Esta correspondencia sirve para planificar la exposición y deberá cotejarse con la pauta del examen cuando se entregue. **IE34 corresponde a EP5 y no se incluye entre los indicadores EP6.**
 
 | Indicador de planificación | Evidencia disponible | Ubicación sugerida |
 |---|---|---|
 | IE26 | Problema, fuentes e integración | Informe §§1–3; láminas 1–5 |
-| IE31–IE32 | Fortalezas, límites y decisiones de diseño | Informe §8; lámina 9 y demostración |
-| IE33–IE34 | Mejoras y conclusiones | Informe §§8–9; láminas 9–10 |
-| IE35–IE36 | Recomendaciones, decisión e impacto esperado | Informe §9; lámina 10 y matriz anterior |
+| IE31 | Fortalezas y limitaciones de la solución | Informe §8; lámina 9 |
+| IE32 | Justificación y evaluación de decisiones de diseño | Informe §§4–8; lámina 9 y demostración |
+| IE33 | Oportunidades de mejora | Informe §8; lámina 9 |
+| IE35 | Recomendaciones sustentadas en hallazgos | Informe §9; lámina 10 y matriz anterior |
+| IE36 | Impacto esperado de las recomendaciones en las decisiones | Informe §9; lámina 10 y matriz anterior |

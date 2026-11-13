@@ -46,6 +46,6 @@ El equipo puede reutilizar esta evidencia en la defensa EP6. Esta correspondenci
 | IE26 | Problema, fuentes e integración | Informe §§1–3; láminas 1–5 |
 | IE31 | Fortalezas y limitaciones de la solución | Informe §8; lámina 9 |
 | IE32 | Justificación y evaluación de decisiones de diseño | Informe §§4–8; lámina 9 y demostración |
-| IE33 | Oportunidades de mejora | Informe §8; lámina 9 |
+| IE33 | Oportunidades de mejora priorizadas y fundamentadas | Informe §8; `docs/plan_mejoras_ep6.md`; lámina 9 por actualizar |
 | IE35 | Recomendaciones sustentadas en hallazgos | Informe §9; lámina 10 y matriz anterior |
 | IE36 | Impacto esperado de las recomendaciones en las decisiones | Informe §9; lámina 10 y matriz anterior |

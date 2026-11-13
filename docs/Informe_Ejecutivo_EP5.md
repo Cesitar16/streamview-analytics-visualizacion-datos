@@ -80,7 +80,7 @@ La evidencia de estas fortalezas es concreta: la clave compuesta evita 397 colis
 
 **Evaluación del diseño:** las barras y tablas permiten comparar cantidades exactas; el treemap muestra la composición y ofrece una lista para las áreas pequeñas. La dispersión conserva la variación entre títulos y usa los votos para contextualizar cada nota. La escala logarítmica financiera hace visibles montos de distinto tamaño, pero requiere explicar sus ejes y la diagonal de igualdad. El mapa orienta la exploración; el ranking entrega el valor preciso. Los filtros y el restablecimiento permiten repetir el recorrido. La matriz complementaria de evidencia y trazabilidad indica dónde se presenta cada criterio EP5.
 
-**Oportunidades de mejora:** incorporar una clasificación etaria desde una fuente verificada; obtener fechas reales de incorporación; completar créditos y cobertura financiera; y comprobar de forma sistemática el reconocimiento de países. Estas mejoras dependen de datos o verificaciones adicionales y no se simulan con los CSV actuales.
+**Oportunidades de mejora:** priorizar la reproducción en otro equipo y los controles de cobertura y reconocimiento geográfico; posteriormente, si se autorizan fuentes fiables, incorporar clasificación etaria, fechas reales de incorporación y completar créditos y finanzas. El anexo `output/pdf/StreamView_EP6_Anexo_Mejoras.pdf`, con fuente en `docs/plan_mejoras_ep6.md`, explica el orden, las dependencias y los beneficios esperados. La información ausente no se simula con los CSV actuales.
 
 ## 9. Conclusiones y recomendaciones para las dos audiencias
 

@@ -65,6 +65,10 @@ table catalogo
 		formatString: #,0
 		lineageTag: 7ed806b1-8b27-54f6-9ef0-0c550577b23e
 
+	measure 'ROI bruto aproximado' = DIVIDE([Ingresos totales] - [Presupuesto total], [Presupuesto total])
+		formatString: 0.00%
+		lineageTag: 2213a3e8-3bbd-5b4f-a98a-cd51cc372fa6
+
 	measure 'Ingresos / presupuesto' = DIVIDE([Ingresos totales], [Presupuesto total])
 		formatString: 0.00
 		lineageTag: 0e19445b-86ec-50ed-a1df-ab1031cda33f

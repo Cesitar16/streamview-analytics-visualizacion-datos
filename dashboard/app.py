@@ -131,7 +131,7 @@ language_values = sorted(catalog["language"].dropna().unique().tolist())
 
 st.markdown('<div class="sv-brand">STREAMVIEW  /  ANALÍTICA AUDIOVISUAL</div>', unsafe_allow_html=True)
 st.markdown('<div class="sv-title">StreamView · Del catálogo a la decisión</div>', unsafe_allow_html=True)
-st.markdown('<div class="sv-subtitle">Explora la oferta, compara señales de audiencia y evalúa la cobertura financiera del caso académico.</div>', unsafe_allow_html=True)
+st.markdown('<div class="sv-subtitle">Explora la oferta, compara popularidad y valoración, y evalúa la cobertura financiera del caso académico.</div>', unsafe_allow_html=True)
 page = st.segmented_control(
     "Perspectiva", ["Panorama del catálogo", "Contenidos y adquisición"],
     default="Panorama del catálogo", key="sv_page",
@@ -224,6 +224,7 @@ if executive:
             x="release_year",
             y="titles",
             color="type",
+            line_dash="type",
             markers=True,
             title="Distribución anual registrada por tipo",
             labels={"release_year": "Año de estreno registrado", "titles": "Contenidos", "type": "Tipo"},
@@ -282,7 +283,7 @@ if executive:
     render_segment_comparison(selected, views, colors=COLORS, chart=chart)
 
 else:
-    section("Contenidos y adquisición", "Compara interés, valoración, créditos y desempeño financiero dentro de la selección.")
+    section("Contenidos y adquisición", "Compara popularidad relativa, valoración, créditos y desempeño financiero dentro de la selección.")
     cols = st.columns(4)
     metric(cols[0], "Títulos", number(len(selected)))
     metric(cols[1], "Con votos", number(selected['vote_count'].gt(0).sum()))
@@ -299,7 +300,7 @@ else:
         if eligible.empty:
             st.info("Ningún título de la selección tiene popularidad válida y votos para esta comparación.")
         else:
-            fig = px.scatter(eligible, x="popularity", y="vote_average", color="type",
+            fig = px.scatter(eligible, x="popularity", y="vote_average", color="type", symbol="type",
                              size="vote_count", size_max=12, hover_name="title",
                              hover_data={"vote_count": True, "popularity": ":.1f", "vote_average": ":.2f"},
                              log_x=True, color_discrete_map=COLORS, render_mode="webgl",
@@ -413,7 +414,7 @@ else:
         with left:
             finance_plot = finance.assign(coverage_status=finance["revenue"].ge(finance["budget"]).map(
                 {True: "Cubre presupuesto", False: "No cubre presupuesto"}))
-            fig = px.scatter(finance_plot, x="budget", y="revenue", color="coverage_status", hover_name="title",
+            fig = px.scatter(finance_plot, x="budget", y="revenue", color="coverage_status", symbol="coverage_status", hover_name="title",
                              log_x=True, log_y=True,
                              color_discrete_map={"Cubre presupuesto": "#187A75", "No cubre presupuesto": "#D76B5C"},
                              hover_data={"return_multiple": ":.2f"},

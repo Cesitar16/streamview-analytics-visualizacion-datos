@@ -66,6 +66,8 @@ MEASURES = {
     "Presupuesto promedio": ("AVERAGE(finanzas[budget])", "#,0"),
     "Presupuesto total": ("SUM(finanzas[budget])", "#,0"),
     "Ingresos totales": ("SUM(finanzas[revenue])", "#,0"),
+    "ROI bruto aproximado": (
+        "DIVIDE([Ingresos totales] - [Presupuesto total], [Presupuesto total])", "0.00%"),
     "Ingresos / presupuesto": (
         "DIVIDE([Ingresos totales], [Presupuesto total])", "0.00"),
     "Retorno mediano por título": ("MEDIAN(finanzas[return_multiple])", "0.00"),

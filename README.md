@@ -25,13 +25,15 @@ uv run --locked streamlit run dashboard/app.py
 
 La aplicación se abre localmente en `http://localhost:8501`. Los filtros recalculan los indicadores desde las vistas de EP1; los CSV RAW no se reescriben. `dashboard/d3.v7.min.js` se incluye para que el treemap no dependa de una CDN. Véanse `powerbi/README.md` y `docs/conciliacion_financiera_ep2.md` antes de presentar cifras financieras.
 
-El informe escrito y las diapositivas se encuentran en `output/pdf/`. Sus fuentes editables son `docs/Informe_Ejecutivo_EP2.md` y `scripts/build_ep2_pdfs.py`. Para regenerar ambos PDF: `uv run --locked python scripts/build_ep2_pdfs.py`. El [guion de defensa técnica](docs/guion_defensa_tecnica_ep2.md) organiza una exposición de 10 minutos, la demostración en vivo y posibles preguntas. La aplicación ofrece exportación CSV del catálogo filtrado y del subconjunto financiero. La [matriz de cumplimiento](docs/matriz_cumplimiento_ep2.md) indica dónde se encuentra cada elemento solicitado y qué debe comprobarse antes de entregar.
-
 Los CSV de `powerbi/data/` se generan localmente con `scripts/export_powerbi.py` y quedan fuera de Git, igual que los archivos originales de `data/raw/`. Para el encargo, `uv run --locked python scripts/package_ep2_data.py` crea `output/entrega/StreamView_EP2_Datos.zip` con las dos fuentes y las seis tablas derivadas; el ZIP se adjunta por la plataforma y no se publica en Git. En otro equipo, extraerlo en la raíz y ejecutar `scripts/rebase_powerbi_sources.py` con Power BI Desktop cerrado antes de abrir el `.pbip`. La [guía de reproducción](docs/reproduccion_ep2.md) describe el proceso completo; [equipo y evidencia](docs/equipo_y_evidencia_ep2.md) recoge los antecedentes verificables del proyecto grupal.
 
 Limitaciones visibles en los dashboards: `rating` no contiene una clasificación etaria utilizable; `date_added.year` coincide con `release_year` en las fuentes; el análisis financiero solo cubre 3.540 películas con presupuesto e ingresos positivos. Los importes se muestran como USD por la convención del informe EP1, ya que los CSV no incluyen una columna de divisa.
 
 El notebook 03 y `src/business_rules.py` implementan los KPIs de Lucas Moncada sobre `catalogo_general`, `catalogo_popularity` y la vista preparada `catalogo_generos`. El notebook 05 y `src/financial_rules.py` implementan el bloque financiero de Ignacio Silva sobre `movies_financial_valid`.
+
+## Evaluación 3 (EP5)
+
+El [informe ejecutivo](docs/Informe_Ejecutivo_EP5.md) y la [matriz de evidencia y trazabilidad](docs/trazabilidad_ep5_ep6.md) reúnen el análisis, la evaluación crítica y las recomendaciones. Las versiones para revisar o entregar son `output/pdf/StreamView_EP5_Informe.pdf` y `output/pdf/StreamView_EP5_Presentacion.pdf`. Los archivos EP2 se conservan como antecedentes. La matriz distingue los indicadores oficiales de EP5 de la preparación para el examen EP6.
 
 ## Fuentes de datos
 
